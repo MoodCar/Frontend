@@ -1,6 +1,7 @@
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import { Link } from 'react-router-dom';
+import logo from '../../images/logo.png';
 
 /* 회원가입/로그인 페이지의 레이아웃을 담당하는 컴포넌트 */
 
@@ -23,7 +24,8 @@ const AuthTemplateBlock = styled.div`
 const WhiteBox = styled.div`
     .logo-area {
         display: block;
-        padding-bottom: 2rem;
+        padding-top: 0.8rem;
+        padding-bottom: 3rem;
         text-align: center;
         font-weight: bold;
         letter-spacing: 2px;
@@ -32,6 +34,7 @@ const WhiteBox = styled.div`
     box-shadow: 0 0 8px rgba(0, 0, 0, 0.025);
     padding: 2rem;
     width: 360px;
+    height: 530px;
     background: white;
     border-radius : 2px;
 `;
@@ -41,7 +44,9 @@ const AuthTemplate = ({ children }) => {
         <AuthTemplateBlock>
             <WhiteBox>
                 <div className="logo-area">
-                    <Link to="/">MoodCar</Link>
+                    <Link to="/">
+                    <img src={logo}></img>
+                    </Link>
                 </div>
                 {children}
             </WhiteBox>

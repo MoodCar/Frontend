@@ -3,7 +3,7 @@ import client from "./client";
 // 로그인
 export const login = ({ email, password }) =>
     client.post('/signin', { email, password });
-    // client.post('/api/auth/login', { email, password });
+    // client.post('/auth/login', { email, password });
 
 // 회원가입
 export const register = ({ email, password }) =>

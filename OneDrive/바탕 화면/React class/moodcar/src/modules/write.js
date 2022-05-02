@@ -16,7 +16,7 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
     key,
     value,
 }));
-export const writeDiary = createAction(WRITE_DIARY, ({ title, content }) => ({
+export const writeDiary = createAction(WRITE_DIARY, ({ title, content, date }) => ({
     title,
     content,
 }));

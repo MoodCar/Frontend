@@ -2,7 +2,7 @@ import axios from 'axios';
 
 const client = axios.create();
 
-client.defaults.baseURL = 'https://3.39.17.18'
+client.defaults.baseURL = 'http://3.39.17.18'
 //https://3.39.17.18
 
 /*

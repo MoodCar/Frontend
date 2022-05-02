@@ -1,10 +1,9 @@
 import styled from 'styled-components';
 
 const ResponsiveBlock = styled.div`
-    padding-left: 1rem;
-    padding-right: 1rem;
-    width: ${window.innerWidth};
-    margin: 0 auto;
+    padding-left: 1.5rem;
+    width: 1024px;
+    margin: 0;
 
     @media (max-width: 1024px) {
         width: 768px;

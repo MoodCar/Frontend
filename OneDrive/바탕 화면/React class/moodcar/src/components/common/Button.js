@@ -12,7 +12,7 @@ const buttonStyle = css`
     color: white;
     outline: none;
     cursor: pointer;
-    height: 35px;
+    height: 45px;
 
     background: ${palette.gray[8]};
     &:hover {
@@ -22,8 +22,8 @@ const buttonStyle = css`
     ${props => 
         props.fullWidth &&
         css`
-            padding-top: 0.75rem;
-            padding-bottom: 0.75rem;
+            padding-top: 0.7rem;
+            padding-bottom: 0.7rem;
             width: 100%;
             font-size: 1.125rem;
         `}
@@ -35,7 +35,7 @@ const buttonStyle = css`
             &hover {
                 background: ${palette.gray[8]};
             }
-        `}
+    `}
 `;
 
 const StyledButton = styled.button`

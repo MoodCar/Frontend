@@ -88,13 +88,20 @@ const AuthForm = ({ type, form, onChange, onSubmit, error }) => {
                         placeholder="비밀번호 확인"
                         type="password"
                         onChange={onChange}
-                        value={form.paswordConfirm}
+                        value={form.passwordConfirm}
                     />
                 )}
                 {error && <ErrorMessage>{error}</ErrorMessage>}
                 <ButtonWithMarginTop black fullWidth style={{ marginTop: '1rem'}}>
                     {text}
                 </ButtonWithMarginTop>
+                <ButtonWithMarginTop black>
+                    <a href="http://3.39.17.18/auth/google">
+                        Google 로그인
+                    </a>
+                    {/* <Link to="http://3.39.17.18/auth/google">Google 로그인</Link> */}
+                </ButtonWithMarginTop>
+                
             </form>
             <Footer>
                 {type === 'login' ? (

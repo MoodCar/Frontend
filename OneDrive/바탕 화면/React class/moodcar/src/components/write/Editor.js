@@ -21,6 +21,12 @@ const TitleInput = styled.input`
     width: 100%;
 `;
 
+// const DateInput = styled.input`
+//     날짜&nbsp;&nbsp;
+//     <input type="date" name="Date" id='date'/>
+//     &nbsp;&nbsp;
+// `;
+
 const QuillWrapper = styled.div`
     /* 최소 크기 지정 및 padding 제거 */
     .ql-editor {
@@ -34,7 +40,7 @@ const QuillWrapper = styled.div`
     }
 `;
 
-const Editor = ({ title, body, onChangeField }) => {
+const Editor = ({ title, content, onChangeField }) => {
     const quillElement = useRef(null); //Quill을 적용할 DivElement를 설정
     const quillInstance = useRef(null); // Quill 인스턴스를 설정
 
@@ -57,7 +63,7 @@ const Editor = ({ title, body, onChangeField }) => {
         const quill = quillInstance.current;
         quill.on('text-change', (delta, oldDelta, source) => {
             if (source === 'user') {
-                onChangeField({ key: 'body', value: quill.root.innerHTML });
+                onChangeField({ key: 'content', value: quill.root.innerHTML });
             }
         });
     }, [onChangeField]);
@@ -76,6 +82,11 @@ const Editor = ({ title, body, onChangeField }) => {
             <QuillWrapper>
                 <div ref={quillElement} />
             </QuillWrapper>
+            {/* <div>
+                날짜&nbsp;&nbsp;
+                <input type="date" name="Date" id='date'/>
+                &nbsp;&nbsp;
+            </div> */}
         </EditorBlock>
     );
 };

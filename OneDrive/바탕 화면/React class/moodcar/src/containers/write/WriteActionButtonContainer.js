@@ -7,9 +7,10 @@ import { writeDiary } from '../../modules/write';
 const WriteActionButtonsContainer = () => {
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const { title, content, diary, diaryError } = useSelector(({ write }) => ({
+    const { title, content, date, diary, diaryError } = useSelector(({ write }) => ({
         title: write.title,
         content: write.content,
+        date: write.date,
         diary: write.diary,
         diaryError: write.diaryError,
     }));
@@ -20,6 +21,7 @@ const WriteActionButtonsContainer = () => {
             writeDiary({
                 title,
                 content,
+                date,
             }),
         );
     };
@@ -34,6 +36,8 @@ const WriteActionButtonsContainer = () => {
         if (diary) {
             const { _id, user } = diary;
             navigate(`/@${user.email}/${_id}`);
+            // 여기에 감정api post?
+            // 해당 일기의 내용에서 감정정보를 추출하도록 요청한다
         }
         if (diaryError) {
             console.log(diaryError);

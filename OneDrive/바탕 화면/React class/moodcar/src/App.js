@@ -1,4 +1,3 @@
-import logo from './logo.svg';
 import './App.css';
 
 import { Route, Routes } from 'react-router-dom';
@@ -6,7 +5,7 @@ import LoginPage from './pages/LoginPage';
 import RegisterPage from './pages/RegisterPage';
 import MainPage from './pages/MainPage';
 import WritePage from './pages/WritePage';
-
+import DiaryPage from './pages/DiaryPage';
 
 function App() {
   return (
@@ -17,7 +16,7 @@ function App() {
       <Route path="/write" element={<WritePage />} />
       <Route path="/@:email">
         <Route index element={<MainPage />} />
-        {/* <Route path=":postId" element={<PostPage />} /> */}
+        <Route path=":diaryID" element={<DiaryPage />} />
       </Route>
     </Routes>
   );
