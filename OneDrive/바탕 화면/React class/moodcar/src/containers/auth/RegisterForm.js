@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { changeField, initializeForm, register } from '../../modules/auth';
 import AuthForm from '../../components/auth/AuthForm';
-import { check } from '../../modules/user';
+import { checklogin } from '../../modules/user';
 import { useNavigate } from 'react-router-dom';
 
 const RegisterForm = () => {
@@ -75,7 +75,7 @@ const RegisterForm = () => {
         if (auth) {
             console.log('회원가입 성공');
             console.log(auth);
-            dispatch(check());
+            dispatch(checklogin());
         }
     }, [auth, authError, dispatch]);
 

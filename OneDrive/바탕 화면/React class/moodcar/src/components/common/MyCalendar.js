@@ -6,6 +6,7 @@ import interactionPlugin from "@fullcalendar/interaction";
 import { Link } from 'react-router-dom';
 import DiaryViewer from '../diary/DiaryViewer';
 import e_image from '../../images/write_button.png';
+import * as diaryAPI from '../../lib/api/diary.js';
 
 const CalendarBlock = styled.div`
     width: 100%;
@@ -20,6 +21,7 @@ const CalendarBlock = styled.div`
 const MyCalendar = (props) => {
     // const date = new Date(getDate).format("yyyymmdd");
     // const { user, title, diaryId } = diary;
+
     const handleDateClick = (arg) => {
         console.log(arg);
         console.log(arg.dateStr);
@@ -32,14 +34,14 @@ const MyCalendar = (props) => {
         window.open('/@:email/diaryId');
     }
 
-    // 감정api 해당 일기의 감정정보를 받아온다
-    // 받아와서 이미지로 나타내던가
-
     function renderEmotionContent(info) {
         return (
-            <div>
-                <img className="emotionImage" src= {e_image}/>
-            </div>
+            <>
+                <div>
+                    <img className="emotionImage" src= {e_image}/>
+                </div>
+
+            </>
         )
     }
 
@@ -62,12 +64,19 @@ const MyCalendar = (props) => {
                                 initialView="dayGridMonth"
                                 plugins={[ dayGridPlugin, interactionPlugin ]}
                                 selectable={true}
+                                locale="ko"
                                 dateClick={handleDateClick}
                                 eventContent={renderEmotionContent}
                                 eventClick= {handleEventClick}
-                                // 근데 사용자 로그인 된 상태로 상세페이지가 로드 되는지
-                                events={[{ title: 'test', date: '2022-04-12', color: '#ffffff' }]}
-                                />
+                                
+                                events={[{ title: 'test', date: '2022-05-01', color: '#ffffff' },
+                                        { title: 'test', date: '2022-05-03', color: '#ffffff' }]}
+                                headerToolbar={{
+                                    left: "prevYear,prev",
+                                    center: "title",
+                                    right: "today next,nextYear"
+                                }}
+                            />
                         </CalendarBlock>
                     </div>
                 </div>

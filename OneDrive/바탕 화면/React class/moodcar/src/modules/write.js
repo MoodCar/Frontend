@@ -1,10 +1,12 @@
 import { createAction, handleActions } from 'redux-actions';
 import createRequestSaga, { createRequestActionTypes, } from '../lib/createRequestSaga';
-import * as diariesAPI from '../lib/api/diary';
+import * as diaryAPI from '../lib/api/diary';
 import { takeLatest } from 'redux-saga/effects';
+import SelectDate from '../components/common/SelectDate';
 
 const INITIALIZE = 'write/INITIALIZE'; // 모든 내용 초기화
 const CHANGE_FIELD = 'write/CHANGE_FIELD'; // 특정 key 값 바꾸기
+const CHANGE_DATE = 'write/CHANGE_DATE';
 const [
     WRITE_DIARY,
     WRITE_DIARY_SUCCESS,
@@ -16,30 +18,40 @@ export const changeField = createAction(CHANGE_FIELD, ({ key, value }) => ({
     key,
     value,
 }));
-export const writeDiary = createAction(WRITE_DIARY, ({ title, content, date }) => ({
-    title,
+export const changeDate = createAction(CHANGE_DATE);
+export const writeDiary = createAction(WRITE_DIARY, ({ content }) => ({
     content,
+    // date,
 }));
 
 // 사가 생성
-const writeDiarySaga = createRequestSaga(WRITE_DIARY, diariesAPI.writeDiary);
+const writeDiarySaga = createRequestSaga(WRITE_DIARY, diaryAPI.writeDiary);
 export function* writeSaga() {
     yield takeLatest(WRITE_DIARY, writeDiarySaga);
 }
 
 const initialState = {
-    title: '',
     content: '',
+    date: '',
     diary: null,
     diaryError: null,
+};
+
+const dateState = {
+    date: SelectDate.dateString,
 };
 
 const write = handleActions(
     {
         [INITIALIZE]: state => initialState, // initialSate를 넣으면 초기 상태로 바뀜
+        [CHANGE_DATE]: (state, { payload: { key } }) => ({
+            ...state,
+            date : SelectDate.dateString,
+        }),
         [CHANGE_FIELD]: (state, { payload: { key, value } }) => ({
             ...state,
             [key]: value, // 특정 key 값을 업데이트
+            date: 'value',
         }),
         [WRITE_DIARY]: state => ({
             ...state,

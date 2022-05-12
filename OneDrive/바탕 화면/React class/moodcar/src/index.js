@@ -10,7 +10,7 @@ import { createStore, applyMiddleware } from 'redux';
 import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules';
-import { tempSetUse, check, tempSetUser } from './modules/user';
+import { tempSetUse, checklogin, tempSetUser } from './modules/user';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -24,7 +24,7 @@ function loadUser() {
     if (!user) return; //로그인 상태가 아니라면 아무것도 안 함
 
     store.dispatch(tempSetUser(JSON.parse(user)));
-    store.dispatch(check());
+    store.dispatch(checklogin());
   } catch (e) {
     console.log('localStoreage is not working');
   }

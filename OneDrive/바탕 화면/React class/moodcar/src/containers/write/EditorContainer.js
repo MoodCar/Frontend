@@ -1,13 +1,17 @@
-import { useEffect, useCallback } from "react";
+import { useEffect, useCallback, useState } from "react";
 import Editor from '../../components/write/Editor';
 import { useSelector, useDispatch } from "react-redux";
 import { changeField, initialize } from "../../modules/write";
+import SelectDate from "../../components/common/SelectDate";
 
 const EditorContainer = () => {
+    console.log(SelectDate.startDate);
+    // console.log(SelectDate.startDate);
     const dispatch = useDispatch();
-    const { title, content } = useSelector(({ write }) => ({
-        title: write.title,
+    const { content, date } = useSelector(({ write }) => ({
         content: write.content,
+        date: write.date,
+        // date: SelectDate.startDate,
     }));
     const onChangeField = useCallback(payload => dispatch(changeField(payload)), [
         dispatch,
@@ -18,7 +22,11 @@ const EditorContainer = () => {
             dispatch(initialize());
         };
     }, [dispatch]);
-    return <Editor onChangeField={onChangeField} title={title} content={content} />;
+    return (
+        <>
+            <Editor onChangeField={onChangeField} content={content} date={date} />
+        </>
+    )
 };
 
 export default EditorContainer;

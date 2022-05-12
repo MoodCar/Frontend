@@ -2,12 +2,15 @@ import styled from 'styled-components';
 import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import logo from '../../images/logo.png';
 import { getYear, getMonth } from "date-fns"; // getYear, getMonth 
 import DatePicker, { registerLocale } from "react-datepicker";  // 한국어적용
 import ko from 'date-fns/locale/ko'; // 한국어적용
+import * as googleAPI from '../../lib/api/auth';
+import UserName from '../auth/UserName';
+import axios from 'axios';
 
 registerLocale("ko", ko) // 한국어적용
 const _ = require('lodash');
@@ -41,7 +44,7 @@ const Wrapper = styled(Responsive)`
     }
     .search {
         display: flex;
-        align-items: fixed-end;
+        align-items: center;
     }
 `;
 
@@ -129,7 +132,7 @@ const SelectDate = (props) => {
     );
 };
 
-const Header = ({ user, onLogout }) => {
+const Header = ({ state }) => {
     return (
         <>
             <HeaderBlock>
@@ -137,24 +140,35 @@ const Header = ({ user, onLogout }) => {
                     <Link to="/" className="logo">
                         <img src={logo} />
                     </Link>
-                    <div className="search">
-                        {/* <SelectDate /> */}
-                    </div>
-                    {user ? (
+                    {/* <div className="search">
+                        <SelectDate />
+                    </div> */}
+                    {state === 200 ? (
                         <div className="right">
-                            <UserInfo>{user.email}</UserInfo>
-                            <StyledButton onClick={onLogout}>로그아웃</StyledButton>
+                            <StyledButton to="/write">
+                                일기 작성
+                            </StyledButton>
+                            {/* <UserInfo>{user.email}</UserInfo> */}
+                            <googleAPI.Users />
+                            {/* <StyledButton onClick={onLogout}>로그아웃</StyledButton> */}
+                            <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>
+                            <button onClick={googleAPI.check}>loginCheck</button>
+    
                         </div>
                     ) : (
                         <div className="right">
-                            <StyledButton to="/write">
-                                write
-                            </StyledButton>
-                            <StyledButton to="/login">
+                            {/* <StyledButton to="/login">
                                 로그인
+                            </StyledButton> */}
+                            <StyledButton onClick={googleAPI.login}>
+                                google 로그인
                             </StyledButton>
+                            <button onClick={googleAPI.check}>loginCheck</button>
                         </div>
                     )}
+
+                    
+
                 </Wrapper>
             </HeaderBlock>
             <Spacer />

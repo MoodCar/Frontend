@@ -1,9 +1,10 @@
-import { useRef, useEffect } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import Quill from 'quill';
 import 'quill/dist/quill.bubble.css';
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import Responsive from '../common/Responsive';
+import SelectDate from '../common/SelectDate';
 
 const EditorBlock = styled(Responsive)`
     /* 페이지 위아래 여백 지정 */
@@ -31,6 +32,7 @@ const QuillWrapper = styled.div`
     /* 최소 크기 지정 및 padding 제거 */
     .ql-editor {
         padding: 0;
+        padding-top: 40px;
         min-height: 320px;
         font-size: 1.125rem;
         line-height: 1.5;
@@ -40,10 +42,11 @@ const QuillWrapper = styled.div`
     }
 `;
 
-const Editor = ({ title, content, onChangeField }) => {
+const Editor = ({ content, date, onChangeField }) => {
     const quillElement = useRef(null); //Quill을 적용할 DivElement를 설정
     const quillInstance = useRef(null); // Quill 인스턴스를 설정
-
+    date = SelectDate.dateString;
+    console.log(date);
     useEffect(() => {
         quillInstance.current = new Quill(quillElement.current, {
             theme: 'bubble',
@@ -68,17 +71,18 @@ const Editor = ({ title, content, onChangeField }) => {
         });
     }, [onChangeField]);
 
-    const onChangeTitle = e => {
-        onChangeField({ key: 'title', value: e.target.value });
-    };
+    // const onChangeTitle = e => {
+    //     onChangeField({ key: 'title', value: e.target.value });
+    // };
 
     return (
         <EditorBlock>
-            <TitleInput
+            {/* <TitleInput
                 placeholder='제목을 입력하세요'
                 onChange={onChangeTitle}
                 value={title}
-                />
+                /> */}
+            <SelectDate />
             <QuillWrapper>
                 <div ref={quillElement} />
             </QuillWrapper>
