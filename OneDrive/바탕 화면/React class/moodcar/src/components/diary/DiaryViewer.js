@@ -35,7 +35,7 @@ const DiaryContent = styled.div`
     color: ${palette.gray[8]};
 `;
 
-const DiaryViewer = ({ diary, error, loading }) => {
+const DiaryViewer = ({ diary, error, loading, actionButtons }) => {
     // 에러 발생 시
     if (error) {
         if (error.response && error.response.status === 404) {
@@ -61,6 +61,7 @@ const DiaryViewer = ({ diary, error, loading }) => {
                     <span>{new Date(publishedDate).toLocaleDateString()}</span>
                 </SubInfo>
             </DiaryHead>
+            {actionButtons}
             <DiaryContent
                 dangerouslySetInnerHTML={{ __html: content }}>
             </DiaryContent>

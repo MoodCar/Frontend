@@ -11,6 +11,7 @@ import ko from 'date-fns/locale/ko'; // 한국어적용
 import * as googleAPI from '../../lib/api/auth';
 import UserName from '../auth/UserName';
 import axios from 'axios';
+import * as diaryAPI from '../../lib/api/diary';
 
 registerLocale("ko", ko) // 한국어적용
 const _ = require('lodash');
@@ -143,6 +144,7 @@ const Header = ({ state }) => {
                     {/* <div className="search">
                         <SelectDate />
                     </div> */}
+                    <button onClick={diaryAPI.diaryList}>list check</button>
                     {state === 200 ? (
                         <div className="right">
                             <StyledButton to="/write">

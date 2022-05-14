@@ -1,12 +1,18 @@
 import Responsive from "../components/common/Responsive";
 import EditorContainer from "../containers/write/EditorContainer";
 import WriteActionButtonsContainer from "../containers/write/WriteActionButtonContainer";
+import SelectDate from "../components/common/SelectDate";
+import * as diaryAPI from "../lib/api/diary";
+import PostDiary from "../components/write/PostDiary.js";
 
 const WritePage = () => {
     return (
         <Responsive>
-            <EditorContainer />
-            <WriteActionButtonsContainer />
+            {/* <EditorContainer />
+            <SelectDate />
+            <WriteActionButtonsContainer /> */}
+            <button onClick={diaryAPI.diaryList}>list check</button>
+            <PostDiary />
         </Responsive>
     );
 };

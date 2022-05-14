@@ -15,6 +15,7 @@ function App() {
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/write" element={<WritePage />} />
       <Route path="/@:email">
+      {/* <Route path="/@${providerId}" > */}
         <Route index element={<MainPage />} />
         <Route path=":diaryID" element={<DiaryPage />} />
       </Route>

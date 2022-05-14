@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 import styled, { css } from 'styled-components';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -7,6 +7,8 @@ import { Link } from 'react-router-dom';
 import DiaryViewer from '../diary/DiaryViewer';
 import e_image from '../../images/write_button.png';
 import * as diaryAPI from '../../lib/api/diary.js';
+import axios from 'axios';
+import { useEffect } from 'react';
 
 const CalendarBlock = styled.div`
     width: 100%;
@@ -21,6 +23,24 @@ const CalendarBlock = styled.div`
 const MyCalendar = (props) => {
     // const date = new Date(getDate).format("yyyymmdd");
     // const { user, title, diaryId } = diary;
+
+    const [diarylist, setDiarylist] = useState([]);
+    const [diaryemotion, setDiaryemotion] = useState([]);
+    
+    
+        useEffect(() => {
+            axios
+            .get('http://3.39.17.18/diaries/116300412661869586758')
+            .then((response) => {
+                console.log(response.data.fetchResult);
+                setDiarylist(response.data.fetchResult);
+                console.log(diarylist.map(diary => (diary.emotion)));
+                console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+                // console.log(diarylist[10].written_date.substr(0, 10));
+            })
+        }, []);
+    
+        // const diaryE = diarylist.map((diary) => (<li>{diary}</li>))
 
     const handleDateClick = (arg) => {
         console.log(arg);
@@ -38,7 +58,8 @@ const MyCalendar = (props) => {
         return (
             <>
                 <div>
-                    <img className="emotionImage" src= {e_image}/>
+                    {/* <img className="emotionImage" src= {e_image}/> */}
+                    {'중립'}
                 </div>
 
             </>
@@ -69,8 +90,9 @@ const MyCalendar = (props) => {
                                 eventContent={renderEmotionContent}
                                 eventClick= {handleEventClick}
                                 
-                                events={[{ title: 'test', date: '2022-05-01', color: '#ffffff' },
-                                        { title: 'test', date: '2022-05-03', color: '#ffffff' }]}
+                                // events={[{ title: 'test', date: '2022-05-01', color: '#ffffff', textColor: '#000000' },
+                                //         { title: 'test', date: '2022-05-03', color: '#ffffff', textColor: '#000000' }]}
+                                events={diarylist}
                                 headerToolbar={{
                                     left: "prevYear,prev",
                                     center: "title",

@@ -11,7 +11,6 @@ const EditorContainer = () => {
     const { content, date } = useSelector(({ write }) => ({
         content: write.content,
         date: write.date,
-        // date: SelectDate.startDate,
     }));
     const onChangeField = useCallback(payload => dispatch(changeField(payload)), [
         dispatch,

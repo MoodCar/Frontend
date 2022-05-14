@@ -4,6 +4,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useParams, useLocation, useNavigation } from "react-router-dom";
 import { readDiary, unloadDiary } from "../../modules/diary";
 import DiaryViewer from "../../components/diary/DiaryViewer";
+import DiaryActionButtons from '../../components/diary/DiaryActionButtons';
 import { useEffect } from "react";
 
 const DiaryViewerContainer = () => {
@@ -23,8 +24,15 @@ const DiaryViewerContainer = () => {
             dispatch(unloadDiary());
         };
     }, [dispatch, diaryId]);
-
-    return <DiaryViewer diary={diary} loading={loading} error={error} />;
+    
+    return (
+        <DiaryViewer
+            diary={diary}
+            loading={loading}
+            error={error}
+            actionButtons={<DiaryActionButtons />}
+        />
+    );
 };
 
 export default DiaryViewerContainer;
