@@ -1,15 +1,17 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 // import { withRouter } from "react-router-dom";
-import { useParams, useLocation, useNavigation } from "react-router-dom";
+import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { readDiary, unloadDiary } from "../../modules/diary";
 import DiaryViewer from "../../components/diary/DiaryViewer";
 import DiaryActionButtons from '../../components/diary/DiaryActionButtons';
-import { useEffect } from "react";
+import axios from 'axios';
+import { removeDiary } from "../../lib/api/diary";
 
 const DiaryViewerContainer = () => {
     // 처음 마운트될 때 일기 읽기 API 요청
     const { diaryId } = useParams();
+    const navigate = useNavigate();
     const dispatch = useDispatch();
     const { diary, error, loading } = useSelector(({ diary, loading }) => ({
         diary: diary.diary,
@@ -24,14 +26,74 @@ const DiaryViewerContainer = () => {
             dispatch(unloadDiary());
         };
     }, [dispatch, diaryId]);
-    
+
+    const onEdit = () => {
+        navigate('/write');
+    };
+
+    const [diarylist, setDiarylist] = useState([]);
+    useEffect(() => {
+        axios
+        .get('http://3.39.17.18/diaries/116300412661869586758')
+        .then((response) => {
+            setDiarylist(response.data.fetchResult);
+        })
+    }, []);
+
+    function addDiaryList() {
+        let diaryarr = [];
+        console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+        for (var i=0; i<diarylist.length; i++) {
+            diaryarr.push({
+                id: diarylist[i].id,
+                title: diarylist[i].emotion,
+                date: diarylist[i].written_date.substr(0, 10),
+                content: diarylist[i].content,
+                color: '#ff000000',
+                textColor: '#000000'
+            })
+        }
+        console.log(diarylist);
+        console.log(diaryarr);
+        return diaryarr;
+    }
+
+    const handleEventClick = (info) => {
+        // <Link to="/@:email/diaryId" />
+        window.open(`/read/:${info.event.id}`);
+        // window.open('/@:email/:diaryId');
+    }
+
+    const location = useLocation();
+
+    useEffect(() => {
+    }, [location])
+
+    let path = location.pathname.substring(7, 9);
+    console.log(path);
+
+    const onRemovebutton = () => {
+        // try {
+        //     await removeDiary(diaryId);
+        //     navigate('/');
+        // } catch (e) {
+        //     console.log(e);
+        // }
+        axios
+        .delete(`http://3.39.17.18/diaries/details?id=${path}`)
+        .then((response) => {
+            console.log(response);
+            navigate('/');
+        })
+        .catch((error) => {
+            console.log(error.response);
+        })
+    };
+
     return (
-        <DiaryViewer
-            diary={diary}
-            loading={loading}
-            error={error}
-            actionButtons={<DiaryActionButtons />}
-        />
+        // <DiaryViewer actionButtons={<DiaryActionButtons onEdit={onEdit} onRemove={onRemove} />}
+        // />
+        <DiaryActionButtons onEdit={onEdit} onRemove={onRemovebutton} />
     );
 };
 

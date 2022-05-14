@@ -1,6 +1,8 @@
 import styled from 'styled-components';
 import palette from '../../lib/styles/palette';
 import Responsive from '../common/Responsive';
+import axios from 'axios';
+import { useState, useEffect } from 'react';
 
 const DiaryViewerBlock = styled(Responsive)`
     margin-top: 4rem;
@@ -35,24 +37,26 @@ const DiaryContent = styled.div`
     color: ${palette.gray[8]};
 `;
 
-const DiaryViewer = ({ diary, error, loading, actionButtons }) => {
-    // 에러 발생 시
-    if (error) {
-        if (error.response && error.response.status === 404) {
-            return <DiaryViewerBlock>존재하지 않는 일기입니다.</DiaryViewerBlock>;
-        }
-        return <DiaryViewerBlock>오류 발생</DiaryViewerBlock>;
-    }
+// const DiaryViewer = ({ diary, error, loading, actionButtons }) => {
+    const DiaryViewer = ({ actionButtons }) => {
 
-    // 로딩 중이거나 아직 일기 데이터가 없을 때
-    if (loading || !diary) {
-        return null;
-    }
+    // 에러 발생 시
+    // if (error) {
+    //     if (error.response && error.response.status === 404) {
+    //         return <DiaryViewerBlock>존재하지 않는 일기입니다.</DiaryViewerBlock>;
+    //     }
+    //     return <DiaryViewerBlock>오류 발생</DiaryViewerBlock>;
+    // }
+
+    // // 로딩 중이거나 아직 일기 데이터가 없을 때
+    // if (loading || !diary) {
+    //     return null;
+    // }
     
-    const { title, content, user, publishedDate } = diary;
+    // const { title, content, user, publishedDate } = diary;
     return (
         <DiaryViewerBlock>
-            <DiaryHead>
+            {/* <DiaryHead>
                 <h1>{title}</h1>
                 <SubInfo>
                     <span>
@@ -60,11 +64,11 @@ const DiaryViewer = ({ diary, error, loading, actionButtons }) => {
                     </span>
                     <span>{new Date(publishedDate).toLocaleDateString()}</span>
                 </SubInfo>
-            </DiaryHead>
-            {actionButtons}
-            <DiaryContent
+            </DiaryHead> */}
+            {/* {actionButtons} */}
+            {/* <DiaryContent
                 dangerouslySetInnerHTML={{ __html: content }}>
-            </DiaryContent>
+            </DiaryContent> */}
         </DiaryViewerBlock>
     );
 };

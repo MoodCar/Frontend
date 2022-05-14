@@ -9,6 +9,7 @@ import e_image from '../../images/write_button.png';
 import * as diaryAPI from '../../lib/api/diary.js';
 import axios from 'axios';
 import { useEffect } from 'react';
+import Calendar from 'react-calendar';
 
 const CalendarBlock = styled.div`
     width: 100%;
@@ -28,19 +29,17 @@ const MyCalendar = (props) => {
     const [diaryemotion, setDiaryemotion] = useState([]);
     
     
-        useEffect(() => {
-            axios
-            .get('http://3.39.17.18/diaries/116300412661869586758')
-            .then((response) => {
-                console.log(response.data.fetchResult);
-                setDiarylist(response.data.fetchResult);
-                console.log(diarylist.map(diary => (diary.emotion)));
-                console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
-                // console.log(diarylist[10].written_date.substr(0, 10));
-            })
-        }, []);
-    
-        // const diaryE = diarylist.map((diary) => (<li>{diary}</li>))
+    useEffect(() => {
+        axios
+        .get('http://3.39.17.18/diaries/116300412661869586758')
+        .then((response) => {
+            console.log(response.data.fetchResult);
+            setDiarylist(response.data.fetchResult);
+            console.log(diarylist.map(diary => (diary.emotion)));
+            console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+            console.log(diarylist[10].emotion);
+        })
+    }, []);
 
     const handleDateClick = (arg) => {
         console.log(arg);
@@ -51,19 +50,15 @@ const MyCalendar = (props) => {
 
     const handleEventClick = (info) => {
         // <Link to="/@:email/diaryId" />
-        window.open('/@:email/diaryId');
+        window.open(`/read/:${info.event.id}`);
+        // window.open('/@:email/:diaryId');
     }
 
     function renderEmotionContent(info) {
-        return (
-            <>
-                <div>
-                    {/* <img className="emotionImage" src= {e_image}/> */}
-                    {'중립'}
-                </div>
-
-            </>
-        )
+        if (info.event.title === '중립') {
+            // return <img className="emotionImage" src= {e_image}/>
+            return '중립';
+        }
     }
 
     // const handleEventClick = function (info) {
@@ -73,6 +68,24 @@ const MyCalendar = (props) => {
     //         // <Link to="/@email/diaryId" />
     //     };
     // }
+
+    function addDiaryList() {
+        let diaryarr = [];
+        console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+        for (var i=0; i<diarylist.length; i++) {
+            diaryarr.push({
+                id: diarylist[i].id,
+                title: diarylist[i].emotion,
+                date: diarylist[i].written_date.substr(0, 10),
+                content: diarylist[i].content,
+                color: '#ff000000',
+                textColor: '#000000'
+            })
+        }
+        console.log(diarylist);
+        console.log(diaryarr);
+        return diaryarr;
+    }
 
     return (
         <div className="mypage-body">
@@ -92,7 +105,7 @@ const MyCalendar = (props) => {
                                 
                                 // events={[{ title: 'test', date: '2022-05-01', color: '#ffffff', textColor: '#000000' },
                                 //         { title: 'test', date: '2022-05-03', color: '#ffffff', textColor: '#000000' }]}
-                                events={diarylist}
+                                events={addDiaryList()}
                                 headerToolbar={{
                                     left: "prevYear,prev",
                                     center: "title",

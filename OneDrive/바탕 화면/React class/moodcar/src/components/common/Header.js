@@ -144,7 +144,7 @@ const Header = ({ state }) => {
                     {/* <div className="search">
                         <SelectDate />
                     </div> */}
-                    <button onClick={diaryAPI.diaryList}>list check</button>
+                    {/* <button onClick={diaryAPI.diaryList}>list check</button> */}
                     {state === 200 ? (
                         <div className="right">
                             <StyledButton to="/write">

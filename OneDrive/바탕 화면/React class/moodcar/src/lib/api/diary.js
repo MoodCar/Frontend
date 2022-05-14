@@ -8,7 +8,7 @@ import { useState, useEffect } from 'react';
 
 export const writeDiary = async({ content, date }) => {
     await axios
-    .post("/diaries/:providerId", { content, date }, { withCredentials: true })
+    .post("http://3.39.17.18/diaries/:providerId", { content, date }, { withCredentials: true })
     .then((response) => {
         console.log(response);
     })
@@ -46,7 +46,7 @@ export const GetId = () => {
 
 export const readDiary = async() => {
     await axios
-    .get("/diaries/details/:id", { withCredentials: true })
+    .get("http://3.39.17.18/diaries/details/:id", { withCredentials: true })
     .then((response) => {
         console.log(response);
     })

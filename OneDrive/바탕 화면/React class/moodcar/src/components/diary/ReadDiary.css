@@ -1,0 +1,16 @@
+.ReadDiary {
+    text-align: center;
+}
+
+.diary-container {
+    margin: 0 auto;
+    width: 90%;
+    border: 1px solid #333;
+    padding: 30px 20px 30px 20px;
+    border-radius: 5px;
+    margin-bottom : 50px;
+}
+
+/* .removebutton {
+    margin-right: 5rem;
+} */

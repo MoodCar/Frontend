@@ -1,6 +1,6 @@
 import client from "./client";
 import axios from 'axios';
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useLocation } from 'react';
 import UserName from "../../components/auth/UserName";
 
 // // 로그인
