@@ -5,6 +5,7 @@ import { useParams, useLocation, useNavigate } from "react-router-dom";
 import { readDiary, unloadDiary } from "../../modules/diary";
 import DiaryViewer from "../../components/diary/DiaryViewer";
 import DiaryActionButtons from '../../components/diary/DiaryActionButtons';
+import ReadDiary from "../../components/diary/ReadDiary";
 import axios from 'axios';
 import { removeDiary } from "../../lib/api/diary";
 
@@ -69,18 +70,29 @@ const DiaryViewerContainer = () => {
     useEffect(() => {
     }, [location])
 
-    let path = location.pathname.substring(7, 9);
+    let path = location.pathname.substring(7);
     console.log(path);
 
-    const onRemovebutton = () => {
+    let info = diarylist.map(diary => (diary.id));
+    function theDiaryDate() {
+        addDiaryList();
+        for (var j=0; j<diarylist.length; j++) {
+            if(path === '/read/:' + info[j]) {
+                // console.log('/read/:' + info[j]);
+                return diarylist[j].written_date.substr(0, 10);
+            };
+        };
+    }
+
+    const onRemove = async() => {
         // try {
         //     await removeDiary(diaryId);
         //     navigate('/');
         // } catch (e) {
         //     console.log(e);
         // }
-        axios
-        .delete(`http://3.39.17.18/diaries/details?id=${path}`)
+        await axios
+        .delete(`http://3.39.17.18/diaries/details/${path}`, { withCredentials: true })
         .then((response) => {
             console.log(response);
             navigate('/');
@@ -91,9 +103,9 @@ const DiaryViewerContainer = () => {
     };
 
     return (
-        // <DiaryViewer actionButtons={<DiaryActionButtons onEdit={onEdit} onRemove={onRemove} />}
+        // <DiaryViewer actionButtons={<DiaryActionButtons onEdit={onEdit} onRemove={onRemovebutton} />}
         // />
-        <DiaryActionButtons onEdit={onEdit} onRemove={onRemovebutton} />
+        <DiaryActionButtons onEdit={onEdit} onRemove={onRemove} />
     );
 };
 

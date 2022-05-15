@@ -50,7 +50,8 @@ const MyCalendar = (props) => {
 
     const handleEventClick = (info) => {
         // <Link to="/@:email/diaryId" />
-        window.open(`/read/:${info.event.id}`);
+        // window.open(`/read/:${info.event.id}`);
+        window.location.href = `http://localhost:3000/read/:${info.event.id}`;
         // window.open('/@:email/:diaryId');
     }
 

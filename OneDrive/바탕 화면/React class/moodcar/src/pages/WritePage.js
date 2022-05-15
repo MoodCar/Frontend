@@ -11,7 +11,6 @@ const WritePage = () => {
             {/* <EditorContainer />
             <SelectDate />
             <WriteActionButtonsContainer /> */}
-            <button onClick={diaryAPI.diaryList}>list check</button>
             <PostDiary />
         </Responsive>
     );

@@ -2,6 +2,7 @@ import client from "./client";
 import axios from 'axios';
 import { useEffect, useState, useLocation } from 'react';
 import UserName from "../../components/auth/UserName";
+import { useNavigate } from 'react-router';
 
 // // 로그인
 // export const login = ({ email, password }) =>

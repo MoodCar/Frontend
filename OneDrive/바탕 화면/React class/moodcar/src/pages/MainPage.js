@@ -13,9 +13,20 @@ const MainPage = () => {
     // const user  = axios.get("http://3.39.17.18/checklogin").then((response) => {
     //     console.log(response);
     // })
+
+    const remove = async() => {
+        await axios
+        .delete('http://3.39.17.18/diaries/details/26', { withCredentials: true })
+        .then((response) => {
+            console.log(response);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        })
+    }
+
     return (
         <>
-            
             <HeaderContainer />
             <MyCalendar />
             {/* <SidebarLeft width={900}>

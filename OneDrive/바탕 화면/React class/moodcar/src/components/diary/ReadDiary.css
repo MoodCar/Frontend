@@ -1,3 +1,4 @@
+
 .ReadDiary {
     text-align: center;
 }
@@ -11,6 +12,10 @@
     margin-bottom : 50px;
 }
 
-/* .removebutton {
+.removebutton {
+    display: flex;
+    justify-content: flex-end;
+    margin-bottom: 2rem;
+    margin-top: -1.5rem;
     margin-right: 5rem;
-} */
+}

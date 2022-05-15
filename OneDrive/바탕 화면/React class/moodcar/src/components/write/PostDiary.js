@@ -5,12 +5,9 @@ import './PostDiary.css';
 import ReactHtmlParser from 'html-react-parser';
 import axios from 'axios';
 import * as diaryAPI from '../../lib/api/diary';
+import { useNavigate } from 'react-router';
+import Button from '../common/Button';
 
-// export const writeDiary = ({ title, content }) =>
-//     client.post('/diaries/:providerId', { title, content });
-// export const readDiary = diaryId => client.get(`/diaries/details/${diaryId}`);
-// axios.post('http://localhost/api', null, {params: {id: 'id'}, headers: {'content-type': 'application/json'}});
-// providerId: 'providerId'
 const PostDiary = () => {
     const [diaryContent, setDiaryContent] = useState({
         content: ''
@@ -18,6 +15,8 @@ const PostDiary = () => {
 
     const [viewContent, setViewContent] = useState([]);
     const [pid, setPid] = useState([]);
+    const navigate = useNavigate();
+
 
     const GetId = () => {
     
@@ -58,11 +57,16 @@ const PostDiary = () => {
             console.log(response);
             alert('등록 완료');
             console.log(diaryContent.content);
+            navigate('/');
         })
         .catch((error) => {
             console.log(error.response);
         });
     };
+
+    const cancel = () => {
+        navigate('/');
+    }
 
     const getContentValue = e => {
         const { name, value } = e.target;
@@ -76,17 +80,17 @@ const PostDiary = () => {
     return (
         <div className="PostDiary">
             <h2>일기 작성</h2>
-            <div className='diary-container'>
+            {/* <div className='diary-container'>
                 {viewContent.map(element =>
                     <div key={element.event}>
                         {ReactHtmlParser(element.content)}
                     </div>
                 )}
-            </div>
+            </div> */}
             <div className='form-wrapper'>
                 <CKEditor
                     editor={ClassicEditor}
-                    data="<p>일기 내용</p>"
+                    data=""
                     onReady={editor => {
                         console.log('Editor is ready to use', editor);
                     }}
@@ -107,14 +111,18 @@ const PostDiary = () => {
                     }}
                 />
             </div>
-            <button
+            {/* <button
                 className="submit-button"
                 // onClick={() => {
                 //     setViewContent(viewContent.concat({...diaryContent}));
                 // }}
                 onClick={submitContent}
             >일기 등록
-            </button>
+            </button> */}
+            <div className='buttons'>
+                <Button className="submit-button" onClick={submitContent}>일기 등록</Button>
+                <Button className="cancel-button" onClick={cancel}>취소</Button>
+            </div>
         </div>
     );
 };

@@ -2,6 +2,7 @@ import './ReadDiary.css';
 import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
+import { useNavigate } from 'react-router';
 import DiaryActionButtons from '../../components/diary/DiaryActionButtons';
 import DiaryViewerContainer from '../../containers/diary/DiaryViewerContainer';
 import AskRemoveModal from './AskRemoveModal';
@@ -10,6 +11,7 @@ const ReadDiary = () => {
 
     const [diarylist, setDiarylist] = useState([]);
     const location = useLocation();
+    const navigate = useNavigate();
 
     useEffect(() => {
         axios
@@ -38,6 +40,7 @@ const ReadDiary = () => {
     }, [location])
 
     let path = location.pathname;
+    let diaryid = path.substring(7);
 
     function theDiaryContent() {
         addDiaryList();
@@ -49,9 +52,9 @@ const ReadDiary = () => {
         };
     }
 
+    let info = diarylist.map(diary => (diary.id));
     function theDiaryDate() {
         addDiaryList();
-        let info = diarylist.map(diary => (diary.id));
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
                 // console.log('/read/:' + info[j]);
@@ -60,6 +63,29 @@ const ReadDiary = () => {
         };
     }
 
+    const onEdit = () => {
+        navigate('/write');
+    };
+
+    const onRemove = async() => {
+        // try {
+        //     await removeDiary(diaryId);
+        //     navigate('/');
+        // } catch (e) {
+        //     console.log(e);
+        // }
+        await axios
+        .delete(`http://3.39.17.18/diaries/details/${diaryid}`, { withCredentials: true })
+        .then((response) => {
+            console.log(response);
+            // window.close();
+            navigate('/');
+        })
+        .catch((error) => {
+            console.log(error.response);
+        })
+    };
+
     return (
         <>
         <div className = "ReadDiary">
@@ -67,7 +93,9 @@ const ReadDiary = () => {
         </div>
         <div className = "removebutton">
             {/* <DiaryActionButtons /> */}
-            <DiaryViewerContainer />
+            {/* <DiaryViewerContainer /> */}
+            <button onClick={onEdit}>수정</button>
+            <button onClick={onRemove}>삭제</button>
         </div>
             <div className='diary-container'>
                 {/* {diarylist.map(element =>
