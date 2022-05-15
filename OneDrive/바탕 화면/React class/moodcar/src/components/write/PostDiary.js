@@ -6,46 +6,42 @@ import ReactHtmlParser from 'html-react-parser';
 import axios from 'axios';
 import * as diaryAPI from '../../lib/api/diary';
 import { useNavigate } from 'react-router';
+import { useLocation } from 'react-router-dom';
 import Button from '../common/Button';
 
 const PostDiary = () => {
+
     const [diaryContent, setDiaryContent] = useState({
         content: ''
     })
-
-    const [viewContent, setViewContent] = useState([]);
-    const [pid, setPid] = useState([]);
     const navigate = useNavigate();
+    const location = useLocation();
+    const [diarylist, setDiarylist] = useState([]);
 
+    useEffect(() => {
+        axios
+        .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
+        .then((response) => {
+            setDiarylist(response.data.fetchResult);
+        })
+    }, []);
 
-    const GetId = () => {
-    
-        useEffect(() => {
-            axios
-            .get('/checklogin')
-            .then(response => {
-                setPid(response.data);
-                // console.log(users);
-                // console.log(response.data);
-            });
-        }, []);
-    
-        return (
-            <div>
-                {pid.map(user => {
-                    return (
-                        <div key={user.providerId}>
-                            {user.providerId}
-                        </div>
-                    );
-                })}
-                {/* <div>{state.state}</div> */}
-            </div>
-        );
-    };
+    useEffect(() => {
+    }, [location])
 
-    GetId();
-    
+    let path = location.pathname;
+    console.log(path);
+    let diaryid = path.substring(7);
+
+    function theDiaryContent() {
+        let info = diarylist.map(diary => (diary.id));
+        for (var j=0; j<diarylist.length; j++) {
+            if(path === '/write/:' + info[j]) {
+                return ReactHtmlParser(diarylist[j].content);
+            };
+        };
+    }
+
     const submitContent = async() => {
         await axios
         .post('http://3.39.17.18/diaries/116300412661869586758', {
@@ -65,7 +61,7 @@ const PostDiary = () => {
     };
 
     const cancel = () => {
-        navigate('/');
+        navigate(-1);
     }
 
     const getContentValue = e => {
@@ -75,6 +71,7 @@ const PostDiary = () => {
             [name]: value
         })
         console.log(diaryContent);
+        return diaryContent;
     }
 
     return (
@@ -90,7 +87,8 @@ const PostDiary = () => {
             <div className='form-wrapper'>
                 <CKEditor
                     editor={ClassicEditor}
-                    data=""
+                    // data=""
+                    data={theDiaryContent()}
                     onReady={editor => {
                         console.log('Editor is ready to use', editor);
                     }}

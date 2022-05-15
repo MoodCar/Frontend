@@ -35,7 +35,7 @@ const DiaryViewerContainer = () => {
     const [diarylist, setDiarylist] = useState([]);
     useEffect(() => {
         axios
-        .get('http://3.39.17.18/diaries/116300412661869586758')
+        .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
         .then((response) => {
             setDiarylist(response.data.fetchResult);
         })

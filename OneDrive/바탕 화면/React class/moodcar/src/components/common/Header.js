@@ -144,7 +144,8 @@ const Header = ({ state }) => {
                     {/* <div className="search">
                         <SelectDate />
                     </div> */}
-                    {/* <button onClick={diaryAPI.diaryList}>list check</button> */}
+                    {/* <button onClick={diaryAPI.diaryList}>list check</button>
+                    <button onClick={googleAPI.check}>loginCheck</button> */}
                     {state === 200 ? (
                         <div className="right">
                             <StyledButton to="/write">
@@ -153,9 +154,7 @@ const Header = ({ state }) => {
                             {/* <UserInfo>{user.email}</UserInfo> */}
                             <googleAPI.Users />
                             {/* <StyledButton onClick={onLogout}>로그아웃</StyledButton> */}
-                            <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>
-                            <button onClick={googleAPI.check}>loginCheck</button>
-    
+                            <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
                         </div>
                     ) : (
                         <div className="right">
@@ -165,7 +164,6 @@ const Header = ({ state }) => {
                             <StyledButton onClick={googleAPI.login}>
                                 google 로그인
                             </StyledButton>
-                            <button onClick={googleAPI.check}>loginCheck</button>
                         </div>
                     )}
 

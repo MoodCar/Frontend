@@ -40,7 +40,7 @@ export const Users = () => {
 
     useEffect(() => {
         axios
-        .get('/checklogin')
+        .get('/checklogin', { withCredentials:true })
         .then(response => {
             setUsers(response.data);
             // console.log(users);
@@ -60,7 +60,7 @@ export const Getstate = () => {
     useEffect(() => {
         async function getState() {
             await axios
-            .get('/checklogin')
+            .get('/checklogin', { withCredentials:true })
             .then(response => {
                 setState(response.statusText);
             })

@@ -22,7 +22,7 @@ export const GetId = () => {
 
     useEffect(() => {
         axios
-        .get('/checklogin')
+        .get('/checklogin', { withCredentials:true })
         .then(response => {
             setPid(response.data);
             // console.log(users);

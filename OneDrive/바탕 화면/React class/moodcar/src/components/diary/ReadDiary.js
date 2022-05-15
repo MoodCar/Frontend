@@ -6,6 +6,7 @@ import { useNavigate } from 'react-router';
 import DiaryActionButtons from '../../components/diary/DiaryActionButtons';
 import DiaryViewerContainer from '../../containers/diary/DiaryViewerContainer';
 import AskRemoveModal from './AskRemoveModal';
+import ReactHtmlParser from 'html-react-parser';
 
 const ReadDiary = () => {
 
@@ -15,7 +16,7 @@ const ReadDiary = () => {
 
     useEffect(() => {
         axios
-        .get('http://3.39.17.18/diaries/116300412661869586758')
+        .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
         .then((response) => {
             setDiarylist(response.data.fetchResult);
         })
@@ -47,7 +48,7 @@ const ReadDiary = () => {
         let info = diarylist.map(diary => (diary.id));
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
-                return diarylist[j].content;
+                return ReactHtmlParser(diarylist[j].content);
             };
         };
     }
@@ -61,6 +62,32 @@ const ReadDiary = () => {
                 return diarylist[j].written_date.substr(0, 10);
             };
         };
+    }
+
+    function theDiaryEmotion() {
+        addDiaryList();
+        for (var j=0; j<diarylist.length; j++) {
+            if(path === '/read/:' + info[j]) {
+                return diarylist[j].emotion;
+            };
+        };
+    }
+
+    function theDiaryHashtag() {
+        addDiaryList();
+        let hashtag1 = '';
+        let hashtag2 = '';
+        let hashtag3 = '';
+        for (var j=0; j<diarylist.length; j++) {
+            if(path === '/read/:' + info[j]) {
+                hashtag1=diarylist[j].hashtag_1;
+                hashtag2=diarylist[j].hashtag_2;
+                hashtag3=diarylist[j].hashtag_3;
+            };
+        };
+        return (
+            hashtag1 + ', ' + hashtag2 + ', ' + hashtag3
+        )
     }
 
     const onEdit = () => {
@@ -96,6 +123,7 @@ const ReadDiary = () => {
             {/* <DiaryViewerContainer /> */}
             <button onClick={onEdit}>수정</button>
             <button onClick={onRemove}>삭제</button>
+            <button onClick={() => navigate('/')}>홈</button>
         </div>
             <div className='diary-container'>
                 {/* {diarylist.map(element =>
@@ -117,6 +145,14 @@ const ReadDiary = () => {
                         {'일기 내용 : '}
                         <br />
                         {theDiaryContent()}
+                    </div>
+                    <br />
+                    <div>
+                        {'감정 : ' + theDiaryEmotion()}
+                    </div>
+                    <br />
+                    <div>
+                        {'키워드 : ' + theDiaryHashtag()}
                     </div>
                 </>
             </div>
