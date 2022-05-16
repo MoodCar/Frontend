@@ -42,7 +42,11 @@ const PostDiary = () => {
         };
     }
 
+
+
     const submitContent = async() => {
+        let ncontent = '';
+        ncontent = ReactHtmlParser(diaryContent.content);
         await axios
         .post('http://3.39.17.18/diaries/116300412661869586758', {
         // .post(`http://3.39.17.18/diaries/${pid}`, {
@@ -94,10 +98,11 @@ const PostDiary = () => {
                     }}
                     onChange={(event, editor) => {
                         const data = editor.getData();
+                        // data.replace("<p>", "").replace("</p>", "");
                         console.log({ event, editor, data });
                         setDiaryContent({
                             ...diaryContent,
-                            content: data
+                            content: data.replace("<p>", "").replace("</p>", "")
                         })
                         console.log(diaryContent);
                     }}

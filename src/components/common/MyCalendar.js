@@ -34,21 +34,24 @@ const MyCalendar = () => {
     // const { user, title, diaryId } = diary;
 
     const [diarylist, setDiarylist] = useState([]);
-    const [diaryemotion, setDiaryemotion] = useState([]);
-
+    const [pid, setPid] = useState([]);
     const [state, setState] = useState([]);
+
     useEffect(() => {
         axios
-        .get('/checklogin', { withCredentials:true })
+        .get('/checklogin', { withCredentials: true })
         .then(response => {
             setState(response.status);
-        });
-    }, []);
+            setPid(response.data[0].providerId);
+            console.log(state);
+            console.log(pid);
+        })
+    }, [])
     
     useEffect(() => {
         axios
         .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
-        // .get(`http://3.39.17.18/diaries/${pid}`)
+        // .get(`http://3.39.17.18/diaries/${pid}`, { withCredentials: true })
         .then((response) => {
             console.log(response.data.fetchResult);
             setDiarylist(response.data.fetchResult);
@@ -141,7 +144,6 @@ const MyCalendar = () => {
 
     function addDiaryList() {
         let diaryarr = [];
-        console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
         for (var i=0; i<diarylist.length; i++) {
             diaryarr.push({
                 id: diarylist[i].id,
@@ -152,8 +154,6 @@ const MyCalendar = () => {
                 textColor: '#000000'
             })
         }
-        console.log(diarylist);
-        console.log(diaryarr);
         return diaryarr;
     }
 
@@ -177,7 +177,6 @@ const MyCalendar = () => {
                             // events={[{ title: 'test', date: '2022-05-01', color: '#ffffff', textColor: '#000000' },
                             //         { title: 'test', date: '2022-05-03', color: '#ffffff', textColor: '#000000' }]}
                             events={addDiaryList()}
-                            eventLimit={true}
                             headerToolbar={{
                                 left: "prevYear,prev",
                                 center: "title",

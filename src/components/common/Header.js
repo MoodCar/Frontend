@@ -144,10 +144,13 @@ const Header = ({ state }) => {
                     {/* <div className="search">
                         <SelectDate />
                     </div> */}
-                    {/* <button onClick={diaryAPI.diaryList}>list check</button>
-                    <button onClick={googleAPI.check}>loginCheck</button> */}
+                    <button onClick={diaryAPI.diaryList}>list check</button>
+                    <button onClick={googleAPI.check}>loginCheck</button>
                     {state === 200 ? (
                         <div className="right">
+                            <StyledButton to="/write">
+                                일기 검색
+                            </StyledButton>
                             <StyledButton to="/write">
                                 일기 작성
                             </StyledButton>

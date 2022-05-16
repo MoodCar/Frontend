@@ -3,6 +3,7 @@ import EditorContainer from "../containers/write/EditorContainer";
 import WriteActionButtonsContainer from "../containers/write/WriteActionButtonContainer";
 import SelectDate from "../components/common/SelectDate";
 import * as diaryAPI from "../lib/api/diary";
+import HeaderContainer from "../containers/common/HeaderContainer";
 import PostDiary from "../components/write/PostDiary.js";
 
 const WritePage = () => {
@@ -11,6 +12,7 @@ const WritePage = () => {
             {/* <EditorContainer />
             <SelectDate />
             <WriteActionButtonsContainer /> */}
+            <HeaderContainer />
             <PostDiary />
         </Responsive>
     );
