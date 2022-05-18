@@ -8,6 +8,8 @@ import * as diaryAPI from '../../lib/api/diary';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import Button from '../common/Button';
+import Spinner from '../common/Spinner';
+import loading_image from '../../images/loading.gif';
 
 const PostDiary = () => {
 
@@ -17,12 +19,14 @@ const PostDiary = () => {
     const navigate = useNavigate();
     const location = useLocation();
     const [diarylist, setDiarylist] = useState([]);
+    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
         axios
         .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
         .then((response) => {
             setDiarylist(response.data.fetchResult);
+            setLoading(false);
         })
     }, []);
 
@@ -30,7 +34,6 @@ const PostDiary = () => {
     }, [location])
 
     let path = location.pathname;
-    console.log(path);
     let diaryid = path.substring(7);
 
     function theDiaryContent() {
@@ -42,11 +45,8 @@ const PostDiary = () => {
         };
     }
 
-
-
     const submitContent = async() => {
-        let ncontent = '';
-        ncontent = ReactHtmlParser(diaryContent.content);
+        setLoading(true);
         await axios
         .post('http://3.39.17.18/diaries/116300412661869586758', {
         // .post(`http://3.39.17.18/diaries/${pid}`, {
@@ -56,6 +56,7 @@ const PostDiary = () => {
         .then((response) => {
             console.log(response);
             alert('등록 완료');
+            setLoading(false);
             console.log(diaryContent.content);
             navigate('/');
         })
@@ -81,6 +82,7 @@ const PostDiary = () => {
     return (
         <div className="PostDiary">
             <h2>일기 작성</h2>
+            {loading ? <img src={loading_image} />: null}
             {/* <div className='diary-container'>
                 {viewContent.map(element =>
                     <div key={element.event}>

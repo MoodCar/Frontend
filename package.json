@@ -27,6 +27,7 @@
     "react-lodash": "^0.1.2",
     "react-router-dom": "^6.3.0",
     "react-scripts": "^5.0.0",
+    "react-spinners": "^0.12.0",
     "react-split": "^2.0.14",
     "redux-saga": "^1.1.3",
     "sass-loader": "^12.6.0",

@@ -148,7 +148,7 @@ const Header = ({ state }) => {
                     <button onClick={googleAPI.check}>loginCheck</button>
                     {state === 200 ? (
                         <div className="right">
-                            <StyledButton to="/write">
+                            <StyledButton to="/search">
                                 일기 검색
                             </StyledButton>
                             <StyledButton to="/write">

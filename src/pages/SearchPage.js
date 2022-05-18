@@ -1,12 +1,12 @@
 import HeaderContainer from "../containers/common/HeaderContainer";
 import React, { useEffect } from 'react';
-import ReadDiary from '../components/diary/ReadDiary';
+import SearchDiary from '../components/diary/SearchDiary';
 
 const DiaryPage = () => {
     return (
         <>
             <HeaderContainer />
-            <ReadDiary />
+            <SearchDiary />
         </>
     );
     // })

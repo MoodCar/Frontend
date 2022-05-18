@@ -6,6 +6,7 @@ import RegisterPage from './pages/RegisterPage';
 import MainPage from './pages/MainPage';
 import WritePage from './pages/WritePage';
 import DiaryPage from './pages/DiaryPage';
+import SearchPage from './pages/SearchPage';
 
 function App() {
   return (
@@ -14,6 +15,7 @@ function App() {
       <Route path="/login" element={<LoginPage />} />
       <Route path="/register" element={<RegisterPage />} />
       <Route path="/write" element={<WritePage />} />
+      <Route path="/search" element={<SearchPage />} />
       {/* <Route path="/@:email">
       <Route path="/@${providerId}" >
         <Route index element={<MainPage />} />
