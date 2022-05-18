@@ -17,33 +17,6 @@ export const writeDiary = async({ content, date }) => {
     });
 };
 
-export const GetId = () => {
-    const [pid, setPid] = useState([]);
-
-    useEffect(() => {
-        axios
-        .get('/checklogin', { withCredentials:true })
-        .then(response => {
-            setPid(response.data);
-            // console.log(users);
-            // console.log(response.data);
-        });
-    }, []);
-
-    return (
-        <div>
-            {pid.map(user => {
-                return (
-                    <div key={user.providerId}>
-                        {user.providerId}
-                    </div>
-                );
-            })}
-            {/* <div>{state.state}</div> */}
-        </div>
-    );
-};
-
 export const readDiary = async() => {
     await axios
     .get("http://3.39.17.18/diaries/details/:id", { withCredentials: true })
@@ -64,6 +37,32 @@ export const diaryList = async() => {
     .catch((error => {
         console.log(error.response);
     }))
+};
+
+export const GetId = async() => {
+    // const [pid, setPid] = useState([]);
+    let userId;
+    // useEffect(() => {
+    //     axios
+    //     .get('/checklogin', { withCredentials:true })
+    //     .then(response => {
+    //         setPid(response.data[0].providerId);
+    //         console.log(pid);
+    //     });
+    // }, []);
+    await axios
+    .get('/checklogin', { withCredentials: true })
+    .then((response) => {
+        // setPid(response.data[0].providerId);
+        userId = response.data[0].providerId
+        console.log(userId);
+    })
+    .catch((error) => {
+        console.log(error.response);
+    })
+    return (
+        userId
+    )
 };
 
 export const removeDiary = async id => await axios.delete(`/diaries/details/${id}`);

@@ -19,3 +19,8 @@
     margin-top: -1.5rem;
     margin-right: 5rem;
 }
+
+.chart-container {
+    margin: 0 auto;
+    width: 400px;
+}

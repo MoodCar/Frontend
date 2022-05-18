@@ -14,10 +14,9 @@ import surprise from '../../images/surprise.png';
 import { Link } from 'react-router-dom';
 import DiaryViewer from '../diary/DiaryViewer';
 import e_image from '../../images/write_button.png';
-import * as googleAPI from '../../lib/api/auth.js';
+import * as diaryAPI from '../../lib/api/diary.js';
 import axios from 'axios';
 import { useEffect } from 'react';
-import Calendar from 'react-calendar';
 
 const CalendarBlock = styled.div`
     width: 100%;
@@ -34,8 +33,9 @@ const MyCalendar = () => {
     // const { user, title, diaryId } = diary;
 
     const [diarylist, setDiarylist] = useState([]);
-    const [pid, setPid] = useState([]);
-    const [state, setState] = useState([]);
+    const [pid, setPid] = useState('');
+    const [state, setState] = useState('');
+    let userId;
 
     useEffect(() => {
         axios
@@ -47,17 +47,29 @@ const MyCalendar = () => {
             console.log(pid);
         })
     }, [])
+
+    function GetId () {
+        axios
+        .get('/checklogin', { withCredentials: true })
+        .then((response) => {
+            userId = response.data[0].providerId;
+            console.log(userId);
+        })
+        .catch((error) => {
+            console.log(error.response);
+        })
+    };
     
     useEffect(() => {
+        GetId();
         axios
         .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
-        // .get(`http://3.39.17.18/diaries/${pid}`, { withCredentials: true })
+        // .get(`http://3.39.17.18/diaries/${userId}`, { withCredentials: true })
         .then((response) => {
             console.log(response.data.fetchResult);
             setDiarylist(response.data.fetchResult);
             console.log(diarylist.map(diary => (diary.emotion)));
             console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
-            console.log(diarylist[10].emotion);
         })
     }, []);
 
@@ -134,14 +146,6 @@ const MyCalendar = () => {
         }
     }
 
-    // const handleEventClick = function (info) {
-    //     // alert('Event: ' + info.event.title);
-    //     if (info.event.url) {
-    //         window.open(info.event.url);
-    //         // <Link to="/@email/diaryId" />
-    //     };
-    // }
-
     function addDiaryList() {
         let diaryarr = [];
         for (var i=0; i<diarylist.length; i++) {
@@ -159,6 +163,7 @@ const MyCalendar = () => {
 
     return (
         <div className="mypage-body">
+            <button onClick={GetId}>id check</button>
             <div className="body-warpper box">
                 <div className="body-info-container">
                     <div className="calendar-wrapper">

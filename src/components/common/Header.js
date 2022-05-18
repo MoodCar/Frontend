@@ -145,6 +145,7 @@ const Header = ({ state }) => {
                         <SelectDate />
                     </div> */}
                     <button onClick={diaryAPI.diaryList}>list check</button>
+                    <button onClick={diaryAPI.GetId}>id check</button>
                     <button onClick={googleAPI.check}>loginCheck</button>
                     {state === 200 ? (
                         <div className="right">
