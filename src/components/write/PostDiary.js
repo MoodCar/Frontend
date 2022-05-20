@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { CKEditor } from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import './PostDiary.css';
@@ -20,7 +20,27 @@ const PostDiary = () => {
     const location = useLocation();
     const [diarylist, setDiarylist] = useState([]);
     const [loading, setLoading] = useState(true);
+    const provider_Id = useRef(null);
 
+    useEffect(() => {
+        axios
+        .get('/checklogin', { withCredentials: true })
+        .then(response => {
+            provider_Id.current = response.data[0].providerId;
+
+            axios
+            .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
+            .then((response) => {
+                setDiarylist(response.data.fetchResult);
+                setLoading(false);
+            })
+            .catch((error) => {
+                console.log(error.response);
+                alert('등록 완료');
+            })
+        })
+    }, [])
+/*
     useEffect(() => {
         axios
         .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
@@ -28,7 +48,7 @@ const PostDiary = () => {
             setDiarylist(response.data.fetchResult);
             setLoading(false);
         })
-    }, []);
+    }, []);*/
 
     useEffect(() => {
     }, [location])
@@ -44,7 +64,7 @@ const PostDiary = () => {
             };
         };
     }
-
+/*
     const submitContent = async() => {
         setLoading(true);
         await axios
@@ -63,6 +83,28 @@ const PostDiary = () => {
         .catch((error) => {
             console.log(error.response);
         });
+    };*/
+
+    const submitContent = async() => {
+        setLoading(true);
+        await axios
+        .get('/checklogin', { withCredentials: true })
+        .then(response => {
+            provider_Id.current = response.data[0].providerId;
+
+            axios
+            .post(`http://3.39.17.18/diaries/${provider_Id.current}`, { content: diaryContent.content }, { withCredentials: true })
+            .then((response) => {
+                console.log(response);
+                alert('등록 완료');
+                setLoading(false);
+                console.log(diaryContent.content);
+                navigate('/');
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
+        })
     };
 
     const cancel = () => {
@@ -82,15 +124,10 @@ const PostDiary = () => {
     return (
         <div className="PostDiary">
             <h2>일기 작성</h2>
-            {loading ? <img src={loading_image} />: null}
-            {/* <div className='diary-container'>
-                {viewContent.map(element =>
-                    <div key={element.event}>
-                        {ReactHtmlParser(element.content)}
-                    </div>
-                )}
-            </div> */}
-            <div className='form-wrapper'>
+            {loading ? <img src={loading_image} /> : null }
+            {/* {loading ? <img src={loading_image} /> : */}
+            <>
+                <div className='form-wrapper'>
                 <CKEditor
                     editor={ClassicEditor}
                     // data=""
@@ -115,7 +152,21 @@ const PostDiary = () => {
                         console.log('Focus.', editor);
                     }}
                 />
-            </div>
+                </div>
+                <div className='buttons'>
+                <Button className="submit-button" onClick={submitContent}>일기 등록</Button>
+                <Button className="cancel-button" onClick={cancel}>취소</Button>
+                </div>
+            </>
+            {/* } */}
+            {/* <div className='diary-container'>
+                {viewContent.map(element =>
+                    <div key={element.event}>
+                        {ReactHtmlParser(element.content)}
+                    </div>
+                )}
+            </div> */}
+            
             {/* <button
                 className="submit-button"
                 // onClick={() => {
@@ -124,10 +175,6 @@ const PostDiary = () => {
                 onClick={submitContent}
             >일기 등록
             </button> */}
-            <div className='buttons'>
-                <Button className="submit-button" onClick={submitContent}>일기 등록</Button>
-                <Button className="cancel-button" onClick={cancel}>취소</Button>
-            </div>
         </div>
     );
 };

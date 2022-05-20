@@ -13,11 +13,13 @@ const HeaderContainer = () => {
     // };
     
     const [state, setState] = useState([]);
+    const [pid, setPid] = useState('');
     useEffect(() => {
         axios
         .get('/checklogin', { withCredentials:true })
         .then(response => {
             setState(response.status);
+            console.log(state);
         });
     }, []);
 

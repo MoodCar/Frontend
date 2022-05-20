@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import styled, { css } from 'styled-components';
 import FullCalendar from "@fullcalendar/react";
 import dayGridPlugin from '@fullcalendar/daygrid';
@@ -11,12 +11,18 @@ import fear from '../../images/fear.png';
 import disgust from '../../images/disgust.png';
 import anger from '../../images/anger.png';
 import surprise from '../../images/surprise.png';
+import axios from 'axios';
+import AskModal from './AskModal';
 import { Link } from 'react-router-dom';
 import DiaryViewer from '../diary/DiaryViewer';
 import e_image from '../../images/write_button.png';
 import * as diaryAPI from '../../lib/api/diary.js';
-import axios from 'axios';
-import { useEffect } from 'react';
+
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Pie } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
+
 
 const CalendarBlock = styled.div`
     width: 100%;
@@ -28,14 +34,14 @@ const CalendarBlock = styled.div`
     padding-top : 0.5rem;
 `;
 
-const MyCalendar = () => {
+const MyCalendar = (props) => {
     // const date = new Date(getDate).format("yyyymmdd");
     // const { user, title, diaryId } = diary;
 
     const [diarylist, setDiarylist] = useState([]);
     const [pid, setPid] = useState('');
     const [state, setState] = useState('');
-    let userId;
+    const provider_Id = useRef(null);
 
     useEffect(() => {
         axios
@@ -43,35 +49,50 @@ const MyCalendar = () => {
         .then(response => {
             setState(response.status);
             setPid(response.data[0].providerId);
-            console.log(state);
-            console.log(pid);
-        })
+            provider_Id.current = response.data[0].providerId;
+
+            axios
+            // .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
+            .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
+            .then((response) => {
+                console.log(response.data.fetchResult);
+                setDiarylist(response.data.fetchResult);
+                console.log(diarylist.map(diary => (diary.emotion)));
+                console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
+            })
     }, [])
 
-    function GetId () {
-        axios
-        .get('/checklogin', { withCredentials: true })
-        .then((response) => {
-            userId = response.data[0].providerId;
-            console.log(userId);
-        })
-        .catch((error) => {
-            console.log(error.response);
-        })
-    };
-    
+    // function GetId () {
+    //     axios
+    //     .get('/checklogin', { withCredentials: true })
+    //     .then((response) => {
+    //         userId = response.data[0].providerId;
+    //         console.log(userId);
+    //     })
+    //     .catch((error) => {
+    //         console.log(error.response);
+    //     })
+    // };
+/*
     useEffect(() => {
-        GetId();
+        // GetId();
         axios
-        .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
-        // .get(`http://3.39.17.18/diaries/${userId}`, { withCredentials: true })
+        // .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
+        .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
         .then((response) => {
             console.log(response.data.fetchResult);
             setDiarylist(response.data.fetchResult);
             console.log(diarylist.map(diary => (diary.emotion)));
             console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
         })
-    }, []);
+        .catch((error) => {
+            console.log(error.response);
+        })
+    });*/
 
     const handleDateClick = (arg) => {
         console.log(arg);
@@ -148,6 +169,7 @@ const MyCalendar = () => {
 
     function addDiaryList() {
         let diaryarr = [];
+        if(diarylist) {
         for (var i=0; i<diarylist.length; i++) {
             diaryarr.push({
                 id: diarylist[i].id,
@@ -157,18 +179,52 @@ const MyCalendar = () => {
                 color: '#ff000000',
                 textColor: '#000000'
             })
-        }
+        } }
         return diaryarr;
     }
 
+    const [modal, setModal] = useState(false);
+    const onModalButtonClick = () => {
+        setModal(true);
+    }
+    const onCancel = () => {
+        setModal(false);
+    }
+
+    const data = {
+        labels: ['중립', '행복', '슬픔', '공포', '혐오', '분노', '놀람'],
+        datasets: [
+          {
+            data: [12, 19, 3, 5, 2, 3],
+            backgroundColor: [
+              '#808080',
+              '#eef181',
+              '#627ac4',
+              '#60b671',
+              '#df8243',
+              '#e44d4d',
+              '#9474c8',
+            ],
+          },
+        ],
+    };
+
     return (
         <div className="mypage-body">
-            <button onClick={GetId}>id check</button>
+            {/* <button onClick={GetId}>id check</button> */}
+            <button onClick={onModalButtonClick}>팝업</button>
+            <AskModal
+                visible={modal}
+                title="한달 통계"
+                description={<Pie data={data} />}
+                onCancel={onCancel}
+            />
             <div className="body-warpper box">
                 <div className="body-info-container">
                     <div className="calendar-wrapper">
                         <CalendarBlock>
                         {state === 200 ? (
+                            <>
                             <FullCalendar
                             // defaultView="dayGridMonth"
                             initialView="dayGridMonth"
@@ -188,6 +244,7 @@ const MyCalendar = () => {
                                 right: "today next,nextYear"
                             }}
                             />
+                            </>
                         ) : (
                              null
                         )}

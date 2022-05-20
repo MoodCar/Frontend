@@ -13,7 +13,15 @@
     justify-content: center;
     padding: 30px 20px 30px 20px;
     border-radius: 5px;
-    margin-bottom : 50px;
+    margin-bottom : 10px;
+}
+
+.date {
+    margin: 0 auto;
+    display: flex;
+    margin-left: 3rem;
+    margin-bottom: 8px;
+    cursor: pointer;
 }
 
 .diary-card {
@@ -23,9 +31,10 @@
     border: 1px solid #333;
     display: flex;
     justify-content: center;
-    padding: 30px 20px 30px 20px;
+    padding: 30px 40px 30px 40px;
     border-radius: 5px;
-    margin-bottom : 50px;
+    margin-bottom : 30px;
+    cursor: pointer;
 }
 
 .searchbutton {

@@ -1,5 +1,6 @@
 import './ReadDiary.css';
-import { useState, useEffect } from 'react';
+import styled from 'styled-components';
+import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
@@ -9,22 +10,62 @@ import AskRemoveModal from './AskRemoveModal';
 import ReactHtmlParser from 'html-react-parser';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import palette from '../../lib/styles/palette';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+
+const StyledButton = styled.button`
+    padding: 0.4rem 0.8rem;
+    border-radius: 4px;
+    color: ${palette.gray[6]};
+    font-weight: bold;
+    border: none;
+    outline: none;
+    font-size: 0.875rem;
+    cursor: pointer;
+    &:hover {
+        background: ${palette.gray[1]};
+        color: ${palette.gray[8]};
+    }
+    &+& {
+        margin-left: 0.25rem;
+    }
+`;
 
 const ReadDiary = () => {
 
     const [diarylist, setDiarylist] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
+    const provider_Id = useRef(null);
 
+    useEffect(() => {
+        axios
+        .get('/checklogin', { withCredentials: true })
+        .then(response => {
+            provider_Id.current = response.data[0].providerId;
+
+            axios
+            .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
+            .then((response) => {
+                setDiarylist(response.data.fetchResult);
+                console.log("useRef")
+
+            })
+            .catch((error) => {
+                console.log(error.response);
+            })
+            })
+    }, [])
+/*
     useEffect(() => {
         axios
         .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
         .then((response) => {
             setDiarylist(response.data.fetchResult);
+            console.log("원래")
         })
-    }, []);
+    }, []);*/
 
     function addDiaryList() {
         let diaryarr = [];
@@ -173,12 +214,12 @@ const ReadDiary = () => {
             <h2>일기 세부 내용</h2>
             <h1>{score[1]}</h1>
         </div>
-        <div className = "removebutton">
+        <div className = "button-container">
             {/* <DiaryActionButtons /> */}
             {/* <DiaryViewerContainer /> */}
-            <button onClick={onEdit}>수정</button>
-            <button onClick={onRemove}>삭제</button>
-            <button onClick={() => navigate('/')}>홈</button>
+            <StyledButton onClick={onEdit}>수정</StyledButton>
+            <StyledButton onClick={onRemove}>삭제</StyledButton>
+            <StyledButton onClick={() => navigate('/')}>홈</StyledButton>
         </div>
             <div className='diary-container'>
                 {/* {diarylist.map(element =>
