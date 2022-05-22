@@ -29,6 +29,7 @@ const CalendarBlock = styled.div`
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top : 0.5rem;
+    z-index: 1000;
 `;
 
 const MyCalendar = (props) => {

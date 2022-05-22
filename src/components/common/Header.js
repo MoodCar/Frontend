@@ -2,7 +2,7 @@ import styled from 'styled-components';
 import Responsive from './Responsive';
 import Button from './Button';
 import { Link } from 'react-router-dom';
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import 'react-datepicker/dist/react-datepicker.css';
 import logo from '../../images/logo.png';
 import { getYear, getMonth } from "date-fns"; // getYear, getMonth 
@@ -12,6 +12,8 @@ import * as googleAPI from '../../lib/api/auth';
 import UserName from '../auth/UserName';
 import axios from 'axios';
 import * as diaryAPI from '../../lib/api/diary';
+import ReactPlayer from 'react-player/youtube'
+import AskModal from './AskModal';
 
 registerLocale("ko", ko) // 한국어적용
 const _ = require('lodash');
@@ -21,6 +23,7 @@ const HeaderBlock = styled.div`
     width: 100%;
     background: white;
     box-shadow: 0px 2px 4px rgba(0,0,0,0.08);
+    z-index: 1010;
 `;
 
 /**
@@ -132,7 +135,64 @@ const SelectDate = (props) => {
     );
 };
 
-const Header = ({ state }) => {
+
+
+const Header = () => {
+    const [modal, setModal] = useState(false);
+    const onModalButtonClick = () => {
+        setModal(true);
+    }
+    const onCancel = () => {
+        setModal(false);
+    }
+
+    const [em, setEm] = useState('');
+    let emotion;
+    async function getData() {
+        try {
+            const getProviderId = await axios.get("/checklogin", {
+            withCredentials: true,
+        });
+        let providerId = await getProviderId.data[0].providerId;
+        const getTodayDiary = await axios.get(
+            `http://3.39.17.18/diaries/today/${providerId}`,
+            { withCredentials: true }
+        );
+        let today = getTodayDiary.data.code;
+        if (today === 200) {
+            emotion = getTodayDiary.data.getTodayResult[0].emotion;
+            setEm(getTodayDiary.data.getTodayResult[0].emotion);
+        } else {
+            emotion = 0;
+        }
+        // return [today, emotion];
+        return [today, emotion];
+        } catch (err) {
+        console.log(err);
+        }
+    }
+
+    async function writeButtonClick() {
+        let [today, emotion] = await getData();
+        if(today !== 200){
+            window.location.href = 'http://localhost:3000/write';
+        }
+        else{
+            alert("오늘 일기가 이미 존재합니다.");
+        }
+    }
+
+    async function contentsButtonClick () {
+        let [today, emotion] = await getData();
+        if(today === 200){
+            console.log(em);
+            setModal(true);
+        }
+        else{
+            alert("오늘 일기가 존재하지 않습니다.");
+        }
+    }
+
     return (
         <>
             <HeaderBlock>
@@ -143,24 +203,38 @@ const Header = ({ state }) => {
                     <button onClick={diaryAPI.diaryList}>list check</button>
                     <button onClick={diaryAPI.GetId}>id check</button>
                     <button onClick={googleAPI.check}>loginCheck</button>
-                    {state === 200 ? (
+                    
                         <div className="right">
+                            <StyledButton onClick={contentsButtonClick}>contents</StyledButton>
+                            <AskModal
+                                visible={modal}
+                                title="콘텐츠 추천"
+                                description={
+                                    <>
+                                    <div> {em} </div>
+                                    <br />
+                                    <ReactPlayer 
+                                    className="react-player" 
+                                    url="https://www.youtube.com/watch?v=q3xy4p2JTfU" 
+                                    width="100%" 
+                                    height="230px" 
+                                    muted={true}
+                                    playing={true} 
+                                    loop={true}
+                                    controls={true} />
+                                </>}
+                                onCancel={onCancel}
+                            />
                             <StyledButton to="/search">
                                 일기 검색
                             </StyledButton>
-                            <StyledButton to="/write">
+                            <StyledButton onClick ={writeButtonClick}>
                                 일기 작성
                             </StyledButton>
                             <googleAPI.Users />
                             <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
                         </div>
-                    ) : (
-                        <div className="right">
-                            <StyledButton onClick={googleAPI.login}>
-                                google 로그인
-                            </StyledButton>
-                        </div>
-                    )}
+                    
 
                     
 

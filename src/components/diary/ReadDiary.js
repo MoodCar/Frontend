@@ -178,7 +178,6 @@ const ReadDiary = () => {
         <>
         <div className = "ReadDiary">
             <h2>일기 세부 내용</h2>
-            <h1>{score[1]}</h1>
         </div>
         <div className = "button-container">
             <StyledButton onClick={onEdit}>수정</StyledButton>
