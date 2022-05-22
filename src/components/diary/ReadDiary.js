@@ -4,9 +4,6 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
-import DiaryActionButtons from '../../components/diary/DiaryActionButtons';
-import DiaryViewerContainer from '../../containers/diary/DiaryViewerContainer';
-import AskRemoveModal from './AskRemoveModal';
 import ReactHtmlParser from 'html-react-parser';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
@@ -57,15 +54,6 @@ const ReadDiary = () => {
             })
             })
     }, [])
-/*
-    useEffect(() => {
-        axios
-        .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
-        .then((response) => {
-            setDiarylist(response.data.fetchResult);
-            console.log("원래")
-        })
-    }, []);*/
 
     function addDiaryList() {
         let diaryarr = [];
@@ -135,27 +123,12 @@ const ReadDiary = () => {
         )
     }
 
-    
-    // let anger_score = 0;
-    // let disgust_score = 0;
-    // let fear_score = 0;
-    // let neutral_score = 0;
-    // let sad_score = 0;
-    // let surprise_score = 0;
-    // let happy_score = 0;
     const score = [];
 
     function theDiaryScore() {
         addDiaryList();
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
-                // anger_score=diarylist[j].anger_score;
-                // disgust_score=diarylist[j].disgust_score;
-                // fear_score=diarylist[j].fear_score;
-                // neutral_score=diarylist[j].neutral_score;
-                // sad_score=diarylist[j].sad_score;
-                // surprise_score=diarylist[j].surprise_score;
-                // happy_score=diarylist[j].happy_score;
                 score.push(diarylist[j].neutral_score)
                 score.push(diarylist[j].happy_score)
                 score.push(diarylist[j].sad_score)
@@ -190,17 +163,10 @@ const ReadDiary = () => {
     };
 
     const onRemove = async() => {
-        // try {
-        //     await removeDiary(diaryId);
-        //     navigate('/');
-        // } catch (e) {
-        //     console.log(e);
-        // }
         await axios
         .delete(`http://3.39.17.18/diaries/details/${diaryid}`, { withCredentials: true })
         .then((response) => {
             console.log(response);
-            // window.close();
             navigate('/');
         })
         .catch((error) => {
@@ -215,23 +181,11 @@ const ReadDiary = () => {
             <h1>{score[1]}</h1>
         </div>
         <div className = "button-container">
-            {/* <DiaryActionButtons /> */}
-            {/* <DiaryViewerContainer /> */}
             <StyledButton onClick={onEdit}>수정</StyledButton>
             <StyledButton onClick={onRemove}>삭제</StyledButton>
             <StyledButton onClick={() => navigate('/')}>홈</StyledButton>
         </div>
             <div className='diary-container'>
-                {/* {diarylist.map(element =>
-                    <>
-                        <div>
-                            {element.written_date.substr(0, 10)}
-                        </div>
-                        <div>
-                            {element.content}
-                        </div>
-                    </>
-                )} */}
                 <>
                     <div>
                         {'날짜 : ' + theDiaryDate()}

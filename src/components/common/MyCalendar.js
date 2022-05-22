@@ -14,9 +14,6 @@ import surprise from '../../images/surprise.png';
 import axios from 'axios';
 import AskModal from './AskModal';
 import { Link } from 'react-router-dom';
-import DiaryViewer from '../diary/DiaryViewer';
-import e_image from '../../images/write_button.png';
-import * as diaryAPI from '../../lib/api/diary.js';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
@@ -35,8 +32,6 @@ const CalendarBlock = styled.div`
 `;
 
 const MyCalendar = (props) => {
-    // const date = new Date(getDate).format("yyyymmdd");
-    // const { user, title, diaryId } = diary;
 
     const [diarylist, setDiarylist] = useState([]);
     const [pid, setPid] = useState('');
@@ -52,7 +47,6 @@ const MyCalendar = (props) => {
             provider_Id.current = response.data[0].providerId;
 
             axios
-            // .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
             .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
             .then((response) => {
                 console.log(response.data.fetchResult);
@@ -66,46 +60,13 @@ const MyCalendar = (props) => {
             })
     }, [])
 
-    // function GetId () {
-    //     axios
-    //     .get('/checklogin', { withCredentials: true })
-    //     .then((response) => {
-    //         userId = response.data[0].providerId;
-    //         console.log(userId);
-    //     })
-    //     .catch((error) => {
-    //         console.log(error.response);
-    //     })
-    // };
-/*
-    useEffect(() => {
-        // GetId();
-        axios
-        // .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
-        .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
-        .then((response) => {
-            console.log(response.data.fetchResult);
-            setDiarylist(response.data.fetchResult);
-            console.log(diarylist.map(diary => (diary.emotion)));
-            console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
-        })
-        .catch((error) => {
-            console.log(error.response);
-        })
-    });*/
-
     const handleDateClick = (arg) => {
         console.log(arg);
         console.log(arg.dateStr);
-        // arg.getDate();
-        // <Link to={`/@${user.email}/${diaryId}`}>{title}</Link>
     }
 
     const handleEventClick = (info) => {
-        // <Link to="/@:email/diaryId" />
-        // window.open(`/read/:${info.event.id}`);
         window.location.href = `http://localhost:3000/read/:${info.event.id}`;
-        // window.open('/@:email/:diaryId');
     }
 
     function renderEmotionContent(info) {
@@ -211,7 +172,6 @@ const MyCalendar = (props) => {
 
     return (
         <div className="mypage-body">
-            {/* <button onClick={GetId}>id check</button> */}
             <button onClick={onModalButtonClick}>팝업</button>
             <AskModal
                 visible={modal}
@@ -226,7 +186,6 @@ const MyCalendar = (props) => {
                         {state === 200 ? (
                             <>
                             <FullCalendar
-                            // defaultView="dayGridMonth"
                             initialView="dayGridMonth"
                             plugins={[ dayGridPlugin, interactionPlugin ]}
                             selectable={true}
@@ -235,8 +194,6 @@ const MyCalendar = (props) => {
                             dateClick={handleDateClick}
                             eventContent={renderEmotionContent}
                             eventClick= {handleEventClick}
-                            // events={[{ title: 'test', date: '2022-05-01', color: '#ffffff', textColor: '#000000' },
-                            //         { title: 'test', date: '2022-05-03', color: '#ffffff', textColor: '#000000' }]}
                             events={addDiaryList()}
                             headerToolbar={{
                                 left: "prevYear,prev",

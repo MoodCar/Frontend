@@ -30,18 +30,6 @@ const SearchDiary = () => {
             })
         })
     }, [])
-/*
-    useEffect(() => {
-        axios
-        .get('http://3.39.17.18/diaries/116300412661869586758', { withCredentials:true })
-        .then((response) => {
-            setDiarylist(response.data.fetchResult);
-            console.log(diarylist);
-        })
-        .catch((error) => {
-            console.log(error.response);
-        })
-    }, []);*/
 
     const handleinputChange = (e) => {
         SetsearchValue(e.target.value);
@@ -49,16 +37,6 @@ const SearchDiary = () => {
     }
 
     const onClick = async() => {
-        /*
-        await axios
-        .get('http://3.39.17.18/diaries/searchresults/116300412661869586758', {params: {'content': searchValue}}, { withCredentials: true })
-        .then((response) => {
-            console.log(searchValue);
-            console.log(response.data);
-        })
-        .catch((error) => {
-            console.log(error.response);
-        })*/
 
         await axios
         .get('/checklogin', { withCredentials: true })
@@ -70,16 +48,19 @@ const SearchDiary = () => {
                 console.log(searchValue);
                 console.log(response.data.searchResult);
                 setSearchlist(response.data.searchResult);
-                // for (var i=0; i<response.data.searchResult.length; i++) {
-                //     list[i] = response.data.searchResult[i].content;
-                // }
-                // console.log(list);
             })
             .catch((error) => {
                 console.log(error.response);
             })
         })
     };
+
+    function goDiary() {
+        let diaryid = searchlist.map(diary => (diary.id));
+        console.log(diaryid);
+        // navigate(`/:${diaryid}`);
+        // window.location.href = `http://localhost:3000/read/:${diaryid[j]}`;
+    }
 
     function viewSearchList () {
         const items = searchlist.map((element) =>
@@ -91,11 +72,6 @@ const SearchDiary = () => {
 
         const items_date = searchlist.map((element) => (element.written_date));
         const items_content = searchlist.map((element) => (element.content));
-        // onClick={navigate(`/read/:${element.id}`)} 
-        
-        // for(var j=0; j<searchlist.length; j++) {
-        //     return <div>{searchlist[j].content}</div>
-        // }
         return (
             <div>{items}</div>
         )

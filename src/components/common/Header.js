@@ -73,7 +73,6 @@ const SelectDate = (props) => {
     const [startDate, setStartDate] = useState(new Date());
     const years = _.range(1990, getYear(new Date()) + 1, 1);
     const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-    // console.log();
     return (
         <DatePicker
             renderCustomHeader={({
@@ -141,9 +140,6 @@ const Header = ({ state }) => {
                     <Link to="/" className="logo">
                         <img src={logo} />
                     </Link>
-                    {/* <div className="search">
-                        <SelectDate />
-                    </div> */}
                     <button onClick={diaryAPI.diaryList}>list check</button>
                     <button onClick={diaryAPI.GetId}>id check</button>
                     <button onClick={googleAPI.check}>loginCheck</button>
@@ -155,16 +151,11 @@ const Header = ({ state }) => {
                             <StyledButton to="/write">
                                 일기 작성
                             </StyledButton>
-                            {/* <UserInfo>{user.email}</UserInfo> */}
                             <googleAPI.Users />
-                            {/* <StyledButton onClick={onLogout}>로그아웃</StyledButton> */}
                             <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
                         </div>
                     ) : (
                         <div className="right">
-                            {/* <StyledButton to="/login">
-                                로그인
-                            </StyledButton> */}
                             <StyledButton onClick={googleAPI.login}>
                                 google 로그인
                             </StyledButton>

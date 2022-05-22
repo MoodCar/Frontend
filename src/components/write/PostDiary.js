@@ -64,26 +64,6 @@ const PostDiary = () => {
             };
         };
     }
-/*
-    const submitContent = async() => {
-        setLoading(true);
-        await axios
-        .post('http://3.39.17.18/diaries/116300412661869586758', {
-        // .post(`http://3.39.17.18/diaries/${pid}`, {
-            content: diaryContent.content
-        // }, {params: {providerId: '116300412661869586758'}}, {withCredentials: true})
-        }, {withCredentials: true})
-        .then((response) => {
-            console.log(response);
-            alert('등록 완료');
-            setLoading(false);
-            console.log(diaryContent.content);
-            navigate('/');
-        })
-        .catch((error) => {
-            console.log(error.response);
-        });
-    };*/
 
     const submitContent = async() => {
         setLoading(true);
@@ -125,7 +105,6 @@ const PostDiary = () => {
         <div className="PostDiary">
             <h2>일기 작성</h2>
             {loading ? <img src={loading_image} /> : null }
-            {/* {loading ? <img src={loading_image} /> : */}
             <>
                 <div className='form-wrapper'>
                 <CKEditor
@@ -137,7 +116,6 @@ const PostDiary = () => {
                     }}
                     onChange={(event, editor) => {
                         const data = editor.getData();
-                        // data.replace("<p>", "").replace("</p>", "");
                         console.log({ event, editor, data });
                         setDiaryContent({
                             ...diaryContent,
@@ -158,23 +136,6 @@ const PostDiary = () => {
                 <Button className="cancel-button" onClick={cancel}>취소</Button>
                 </div>
             </>
-            {/* } */}
-            {/* <div className='diary-container'>
-                {viewContent.map(element =>
-                    <div key={element.event}>
-                        {ReactHtmlParser(element.content)}
-                    </div>
-                )}
-            </div> */}
-            
-            {/* <button
-                className="submit-button"
-                // onClick={() => {
-                //     setViewContent(viewContent.concat({...diaryContent}));
-                // }}
-                onClick={submitContent}
-            >일기 등록
-            </button> */}
         </div>
     );
 };
