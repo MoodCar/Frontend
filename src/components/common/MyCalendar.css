@@ -5,6 +5,7 @@
     display: flex;
     justify-content: center;
     align-items: center;
+    white-space: pre-line;
 }
 
 .diary-container {
@@ -14,4 +15,9 @@
     padding: 30px 20px 30px 20px;
     border-radius: 5px;
     margin-bottom : 50px;
+}
+
+.event {
+    display: flex;
+    justify-content: center;
 }

@@ -52,8 +52,9 @@ const MyCalendar = (props) => {
             .then((response) => {
                 console.log(response.data.fetchResult);
                 setDiarylist(response.data.fetchResult);
-                console.log(diarylist.map(diary => (diary.emotion)));
-                console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+                // console.log(diarylist.map(diary => (diary.emotion)));
+                // console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
+                // console.log(diarylist.map(diary => (diary.hashtag_1)));
             })
             .catch((error) => {
                 console.log(error.response);
@@ -74,56 +75,105 @@ const MyCalendar = (props) => {
         if (info.event.title === '중립') {
             return (
                 <>
-                <img src={neutral} />
-                중립
+                    <div className='event'>
+                        <img display="block" margin="0 auto" src={neutral} />
+                    </div>
+                    <div className='event'>
+                        중립
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
         else if (info.event.title === '행복') {
             return (
                 <>
-                <img src={happy} />
-                행복
+                    <div className='event'>
+                        <img display="block" margin="a auto" src={happy} />
+                    </div>
+                    <div className='event'>
+                        행복
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
         else if (info.event.title === '슬픔') {
             return (
                 <>
-                <img src={sad} />
-                슬픔
+                    <div className='event'>
+                        <img display="block" margin="a auto" src={sad} />
+                    </div>
+                    <div className='event'>
+                        슬픔
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
         else if (info.event.title === '공포') {
             return (
                 <>
-                <img src={fear} />
-                공포
+                    <div className='event'>
+                        <img display="block" margin="a auto" src={fear} />
+                    </div>
+                    <div className='event'>
+                        공포
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
         else if (info.event.title === '혐오') {
             return (
                 <>
-                <img src={disgust} />
-                혐오
+                    <div className='event'>
+                        <img display="block" margin="a auto" src={disgust} />
+                    </div>
+                    <div className='event'>
+                        혐오
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
         else if (info.event.title === '분노') {
             return (
                 <>
-                <img src={anger} />
-                분노
+                    <div className='event'>
+                        <img display="block" margin="a auto" src={anger} />
+                    </div>
+                    <div className='event'>
+                        분노
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
         else if (info.event.title === '놀람') {
             return (
                 <>
-                <img src={surprise} />
-                놀람
+                    <div className='event'>
+                        <img display="block" margin="a auto" src={surprise} />
+                    </div>
+                    <div className='event'>
+                        놀람
+                    </div>
+                    <div><br /></div>
+                    <div className='event'>{info.event.groupId}</div>
+                    
                 </>
             )
         }
@@ -138,11 +188,16 @@ const MyCalendar = (props) => {
                 title: diarylist[i].emotion,
                 date: diarylist[i].written_date.substr(0, 10),
                 content: diarylist[i].content,
+                hashtag: diarylist[i].hashtag_1,
+                location: diarylist[i].hashtag_1,
+                groupId: '#'+diarylist[i].hashtag_1+' #'+diarylist[i].hashtag_2+' #'+diarylist[i].hashtag_3,
                 color: '#ff000000',
                 textColor: '#000000'
             })
-        } }
-        return diaryarr;
+        }}
+        return (
+            diaryarr
+        )
     }
 
     const [modal, setModal] = useState(false);
@@ -196,6 +251,7 @@ const MyCalendar = (props) => {
                             eventContent={renderEmotionContent}
                             eventClick= {handleEventClick}
                             events={addDiaryList()}
+                            displayEventEnd = {true}
                             headerToolbar={{
                                 left: "prevYear,prev",
                                 center: "title",

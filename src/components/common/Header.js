@@ -192,7 +192,7 @@ const Header = () => {
             alert("오늘 일기가 존재하지 않습니다.");
         }
     }
-
+    const state = 200;
     return (
         <>
             <HeaderBlock>
@@ -203,7 +203,11 @@ const Header = () => {
                     <button onClick={diaryAPI.diaryList}>list check</button>
                     <button onClick={diaryAPI.GetId}>id check</button>
                     <button onClick={googleAPI.check}>loginCheck</button>
-                    
+                    { !state ? (
+                        <div className='right'>
+                            <StyledButton onClick={googleAPI.login}>로그인</StyledButton>
+                        </div> ) : 
+                    (
                         <div className="right">
                             <StyledButton onClick={contentsButtonClick}>contents</StyledButton>
                             <AskModal
@@ -234,7 +238,7 @@ const Header = () => {
                             <googleAPI.Users />
                             <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
                         </div>
-                    
+                    )}
 
                     
 
