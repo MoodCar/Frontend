@@ -39,3 +39,9 @@
     margin: 0 auto;
     width: 400px;
 }
+
+.feedback-buttons {
+    display: flex;
+    justify-content: center;
+    margin-top: 3rem;
+}

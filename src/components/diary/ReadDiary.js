@@ -71,8 +71,9 @@ const ReadDiary = () => {
     const provider_Id = useRef(null);
     const [emotionModal, setEmotionModal] = useState(false);
     const [keywordModal, setKeywordModal] = useState(false);
+    const [emotionFeedbackModal, setEmotionFeedbackModal] = useState(false);
+    const [keywordFeedbackModal, setKeywordFeedbackModal] = useState(false);
     const [emotion, setEmotion] = useState('');
-    const [keyword, setKeyword] = useState([]);
     const [keyword1, setKeyword1] = useState('');
     const [keyword2, setKeyword2] = useState('');
     const [keyword3, setKeyword3] = useState('');
@@ -89,6 +90,20 @@ const ReadDiary = () => {
     }
     const onKeywordCancel = () => {
         setKeywordModal(false);
+    }
+
+    const onEmotionFeedbackModalClick = () => {
+        setEmotionFeedbackModal(true);
+    }
+    const onEmotionFeedbackCancel = () => {
+        setEmotionFeedbackModal(false);
+    }
+
+    const onKeywordFeedbackModalClick = () => {
+        setKeywordFeedbackModal(true);
+    }
+    const onKeywordFeedbackCancel = () => {
+        setKeywordFeedbackModal(false);
     }
 
     useEffect(() => {
@@ -283,6 +298,11 @@ const ReadDiary = () => {
         })
     }
 
+    const onEmotionFeedback = async () => {
+        await axios
+        .post('http://3.39.17.18/feedbacks/emotions', { withCredentials: true })
+    }
+
     return (
         <>
         <div className = "ReadDiary">
@@ -364,6 +384,17 @@ const ReadDiary = () => {
                     <br />
                     <div className='chart-container'>
                         <Pie data={data} />
+                    </div>
+                    <div className='feedback-buttons'>
+                        <StyledButton onClick={onEmotionFeedbackModalClick}>감정 피드백 보내기</StyledButton>
+                        <AskModal
+                            visible={emotionFeedbackModal}
+                            title="감정 feedback"
+                            description="feedback"
+                            onConfirm={onEditEmotion}
+                            onCancel={onEmotionFeedbackCancel}
+                        />
+                        <StyledButton onClick={onKeywordFeedbackModalClick}>키워드 피드백 보내기</StyledButton>
                     </div>
                 </>
             </div>
