@@ -66,7 +66,7 @@ const UserInfo = styled.div`
 `;
 
 const StyledButton = styled(Button)`
-    height: 2.3rem;
+    height: 2.4rem;
     & + & {
         margin-left: 0.5rem;
     }
@@ -182,6 +182,10 @@ const Header = () => {
         }
     }
 
+    function searchButtonClick() {
+        window.location.href = 'http://localhost:3000/search';
+    }
+
     async function contentsButtonClick () {
         let [today, emotion] = await getData();
         if(today === 200){
@@ -229,7 +233,8 @@ const Header = () => {
                                 </>}
                                 onCancel={onCancel}
                             />
-                            <StyledButton to="/search">
+                            {/* <StyledButton to="/search"> */}
+                            <StyledButton onClick={searchButtonClick}>
                                 일기 검색
                             </StyledButton>
                             <StyledButton onClick ={writeButtonClick}>

@@ -1,4 +1,9 @@
+@import '../../lib/styles/fonts/font.css';
+
 .SearchDiary {
+    font-family: "NeoDunggeunmo";
+    font-size: 1.1rem;
+    font-weight: normal;
     text-align: center;
     width: 100%;
     margin: 0 auto;
@@ -48,4 +53,10 @@
     margin-bottom: 2rem;
     margin-top: -1.5rem;
     margin-right: 5rem;
+}
+
+.search-result {
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
 }

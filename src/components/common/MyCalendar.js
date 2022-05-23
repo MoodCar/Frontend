@@ -17,6 +17,7 @@ import { Link } from 'react-router-dom';
 
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import '../../lib/styles/fonts/font.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -24,8 +25,9 @@ ChartJS.register(ArcElement, Tooltip, Legend);
 const CalendarBlock = styled.div`
     width: 100%;
     background: white;
-    font-size: 1rem;
-    font-weight: 600;
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
     padding-left: 2rem;
     padding-right: 2rem;
     padding-top : 0.5rem;

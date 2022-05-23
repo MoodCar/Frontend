@@ -7,7 +7,9 @@ import { useNavigate } from 'react-router';
 import ReactHtmlParser from 'html-react-parser';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
+import AskModal from '../common/AskModal';
 import palette from '../../lib/styles/palette';
+import '../../lib/styles/fonts/font.css';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -15,7 +17,9 @@ const StyledButton = styled.button`
     padding: 0.4rem 0.8rem;
     border-radius: 4px;
     color: ${palette.gray[6]};
-    font-weight: bold;
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
     border: none;
     outline: none;
     font-size: 0.875rem;
@@ -29,12 +33,51 @@ const StyledButton = styled.button`
     }
 `;
 
+export const SelectBox = styled.select`
+	margin: 0;
+	min-width: 0;
+	display: block;
+	width: 100%;
+	padding: 8px 8px;
+	font-size: inherit;
+	line-height: inherit;
+	border: 1px solid;
+	border-radius: 4px;
+	color: inherit;
+	background-color: transparent;
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
+	&:focus {
+		border-color: gray;
+	}
+`;
+
 const ReadDiary = () => {
 
     const [diarylist, setDiarylist] = useState([]);
     const location = useLocation();
     const navigate = useNavigate();
     const provider_Id = useRef(null);
+    const [emotionModal, setEmotionModal] = useState(false);
+    const [keywordModal, setKeywordModal] = useState(false);
+    const [emotion, setEmotion] = useState('');
+    let emo = '';
+    const [keyword, setKeyword] = useState([]);
+
+    const onEmotionModalButtonClick = () => {
+        setEmotionModal(true);
+    }
+    const onEmotionCancel = () => {
+        setEmotionModal(false);
+    }
+
+    const onKeywordModalButtonClick = () => {
+        setKeywordModal(true);
+    }
+    const onKeywordCancel = () => {
+        setKeywordModal(false);
+    }
 
     useEffect(() => {
         axios
@@ -46,7 +89,6 @@ const ReadDiary = () => {
             .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
             .then((response) => {
                 setDiarylist(response.data.fetchResult);
-                console.log("useRef")
 
             })
             .catch((error) => {
@@ -158,6 +200,17 @@ const ReadDiary = () => {
         ],
     };
 
+    const OPTIONS = [
+        { value: {theDiaryEmotion}, name: "감정을 선택하세요"},
+        { value: "중립", name: "중립" },
+        { value: "행복", name: "행복" },
+        { value: "슬픔", name: "슬픔" },
+        { value: "공포", name: "공포" },
+        { value: "놀람", name: "놀람" },
+        { value: "분노", name: "분노" },
+        { value: "혐오", name: "혐오" },
+    ];
+
     const onEdit = () => {
         navigate('/write');
     };
@@ -174,6 +227,25 @@ const ReadDiary = () => {
         })
     };
 
+    const handleSelectChange = (e) => {
+        setEmotion(e.target.value);
+        emo = e.target.value;
+    }
+
+    const onEditEmotion = async () => {
+        await axios
+        .patch(`http://3.39.17.18/diaries/emotions/${diaryid}`, { emotion: emotion }, { withCredentials: true })
+        .then((response) => {
+            console.log(response);
+            setEmotionModal(false);
+            navigate('/');
+        })
+        .catch((error) => {
+            console.log(error.response);
+            alert("다시 시도해주세요");
+        })
+    }
+
     return (
         <>
         <div className = "ReadDiary">
@@ -183,6 +255,34 @@ const ReadDiary = () => {
             <StyledButton onClick={onEdit}>수정</StyledButton>
             <StyledButton onClick={onRemove}>삭제</StyledButton>
             <StyledButton onClick={() => navigate('/')}>홈</StyledButton>
+        </div>
+        <div className='button-container'>
+            <StyledButton onClick={onEmotionModalButtonClick}>감정 수정</StyledButton>
+            <AskModal
+                visible={emotionModal}
+                title="감정 수정"
+                description={
+                    <SelectBox onChange={handleSelectChange}>
+                        {OPTIONS.map((option) => (
+				            <option
+					        key={option.value}
+					        value={option.value}
+				            >
+					        {option.name}
+				            </option>
+			            ))}
+                    </SelectBox>}
+                onConfirm={onEditEmotion}
+                onCancel={onEmotionCancel}
+            />
+            <StyledButton onClick={onKeywordModalButtonClick}>키워드 수정</StyledButton>
+            <AskModal
+                visible={keywordModal}
+                title="키워드 수정"
+                description="키워드수정"
+                onConfirm={onKeywordCancel}
+                onCancel={onKeywordCancel}
+            />
         </div>
             <div className='diary-container'>
                 <>

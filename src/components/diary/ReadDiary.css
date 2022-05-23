@@ -1,8 +1,16 @@
+@import '../../lib/styles/fonts/font.css';
+
 .ReadDiary {
+    font-family: "NeoDunggeunmo";
+    font-size: 1.1rem;
+    font-weight: normal;
     text-align: center;
 }
 
 .diary-container {
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
     margin: 0 auto;
     width: 90%;
     border: 1px solid #333;

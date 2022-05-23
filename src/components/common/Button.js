@@ -1,13 +1,15 @@
 import styled, { css } from 'styled-components';
 import { Link } from 'react-router-dom';
 import palette from '../../lib/styles/palette';
+import '../../lib/styles/fonts/font.css';
 
 
 const buttonStyle = css`
     border: none;
     border-radius: 5px;
-    font-size: 1rem;
-    font-weight: bold;
+    font-family: NeoDunggeunmo;
+    font-size: 1.1rem;
+    font-weight: normal;
     padding: 0.4rem 1rem;
     color: white;
     outline: none;

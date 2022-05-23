@@ -132,8 +132,8 @@ const PostDiary = () => {
                 />
                 </div>
                 <div className='buttons'>
-                <Button className="submit-button" onClick={submitContent}>일기 등록</Button>
-                <Button className="cancel-button" onClick={cancel}>취소</Button>
+                    <Button className="submit-button" onClick={submitContent}>일기 등록</Button>
+                    <Button className="cancel-button" onClick={cancel}>취소</Button>
                 </div>
             </>
         </div>

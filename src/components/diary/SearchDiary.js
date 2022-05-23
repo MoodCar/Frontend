@@ -91,7 +91,7 @@ const SearchDiary = () => {
             />
             <Button className = "searchbutton" id="search-button" onClick={onClick}>검색</Button>
         </div>
-        <div>
+        <div className='search-result'>
             {viewSearchList()}
         </div>
         </>

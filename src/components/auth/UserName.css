@@ -1,0 +1,7 @@
+@import '../../lib/styles/fonts/font.css';
+
+.user-name {
+    font-family: "NeoDunggeunmo";
+    font-size: 1.1rem;
+    font-weight: normal;
+}

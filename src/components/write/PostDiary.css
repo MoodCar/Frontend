@@ -1,6 +1,11 @@
+@import '../../lib/styles/fonts/font.css';
+
 .PostDiary {
-    margin-top: 1rem;
-    text-align: center;
+  font-family: "NeoDunggeunmo";
+  font-size: 1.1rem;
+  font-weight: normal;
+  margin-top: 1rem;
+  text-align: center;
 }
 
 .diary-container {
@@ -13,6 +18,9 @@
 }
   
 .form-wrapper{
+  font-family: "S-CoreDream-3Light";
+  font-size: 1.1rem;
+  font-weight: normal;
   width: 80%;
   margin: 0 auto;
 }
@@ -20,6 +28,12 @@
 .text-area {
   width: 80%;
   min-height: 500px;
+}
+
+.buttons {
+  margin: 0 auto;
+  display: inline;
+  width: 100%;
 }
   
 .submit-button {

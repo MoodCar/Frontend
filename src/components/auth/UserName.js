@@ -5,7 +5,7 @@ const UserName = ({ users }) => {
         <div>
             {users.map(user => {
                 return (
-                    <div key={user.providerId}>
+                    <div className='user-name' key={user.providerId}>
                         {user.name}
                     </div>
                 );

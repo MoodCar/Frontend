@@ -22,6 +22,9 @@ const AskModalBlock = styled.div`
     padding: 1.5rem;
     border-radius: 4px;
     box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.125);
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
     h2 {
         margin-top: 0;
         margin-bottom: 1rem;
@@ -30,6 +33,7 @@ const AskModalBlock = styled.div`
         margin-bottom: 3rem;
     }
     .buttons {
+        width: 180px;
         display: flex;
         justify-content: flex-end;
     }
@@ -47,6 +51,7 @@ const AskModal = ({
     title,
     description,
     cancelText = '닫기',
+    confirmText = '확인',
     onConfirm,
     onCancel,
     }) => {
@@ -57,8 +62,8 @@ const AskModal = ({
                 <h2>{title}</h2>
                 <p>{description}</p>
                 <div className = "buttons">
+                    <StyledButton onClick={onConfirm}>{confirmText}</StyledButton>
                     <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
-                    
                 </div>
             </AskModalBlock>
         </Fullscreen>
