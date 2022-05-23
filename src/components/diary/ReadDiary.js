@@ -7,7 +7,7 @@ import { useNavigate } from 'react-router';
 import ReactHtmlParser from 'html-react-parser';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
-import AskModal from '../common/AskModal';
+import AskModal from '../common/AskModalConfirm';
 import palette from '../../lib/styles/palette';
 import '../../lib/styles/fonts/font.css';
 
@@ -33,7 +33,7 @@ const StyledButton = styled.button`
     }
 `;
 
-export const SelectBox = styled.select`
+const SelectBox = styled.select`
 	margin: 0;
 	min-width: 0;
 	display: block;
@@ -53,6 +53,16 @@ export const SelectBox = styled.select`
 	}
 `;
 
+const TextArea = styled.textarea`
+    width: 100%;
+    height: 2em;
+    resize: none;
+    margin-top: 10px;
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
+`;
+
 const ReadDiary = () => {
 
     const [diarylist, setDiarylist] = useState([]);
@@ -62,8 +72,10 @@ const ReadDiary = () => {
     const [emotionModal, setEmotionModal] = useState(false);
     const [keywordModal, setKeywordModal] = useState(false);
     const [emotion, setEmotion] = useState('');
-    let emo = '';
     const [keyword, setKeyword] = useState([]);
+    const [keyword1, setKeyword1] = useState('');
+    const [keyword2, setKeyword2] = useState('');
+    const [keyword3, setKeyword3] = useState('');
 
     const onEmotionModalButtonClick = () => {
         setEmotionModal(true);
@@ -229,7 +241,18 @@ const ReadDiary = () => {
 
     const handleSelectChange = (e) => {
         setEmotion(e.target.value);
-        emo = e.target.value;
+    }
+
+    const handleTag1Change = (e) => {
+        setKeyword1(e.target.value);
+    }
+
+    const handleTag2Change = (e) => {
+        setKeyword2(e.target.value);
+    }
+
+    const handleTag3Change = (e) => {
+        setKeyword3(e.target.value);
     }
 
     const onEditEmotion = async () => {
@@ -238,6 +261,20 @@ const ReadDiary = () => {
         .then((response) => {
             console.log(response);
             setEmotionModal(false);
+            navigate('/');
+        })
+        .catch((error) => {
+            console.log(error.response);
+            alert("다시 시도해주세요");
+        })
+    }
+
+    const onEditKeyword = async () => {
+        await axios
+        .patch(`http://3.39.17.18/diaries/hashtags/${diaryid}`, { hashtag_1: keyword1,  hashtag_2: keyword2, hashtag_3: keyword3 }, { withCredentials: true })
+        .then((response) => {
+            console.log(response);
+            setKeywordModal(false);
             navigate('/');
         })
         .catch((error) => {
@@ -279,8 +316,25 @@ const ReadDiary = () => {
             <AskModal
                 visible={keywordModal}
                 title="키워드 수정"
-                description="키워드수정"
-                onConfirm={onKeywordCancel}
+                description={
+                    <>
+                    <div>
+                        <div>{"키워드 1"}</div>
+                        <TextArea onChange={handleTag1Change} placeholder="키워드를 입력해 주세요"/>
+                    </div>
+                    <br />
+                    <div>
+                        <div>{"키워드 2"}</div>
+                        <TextArea onChange={handleTag2Change} placeholder="키워드를 입력해 주세요"/>
+                    </div>
+                    <br />
+                    <div>
+                        <div>{"키워드 3"}</div>
+                        <TextArea onChange={handleTag3Change} placeholder="키워드를 입력해 주세요"/>
+                    </div>
+                    </>
+                }
+                onConfirm={onEditKeyword}
                 onCancel={onKeywordCancel}
             />
         </div>

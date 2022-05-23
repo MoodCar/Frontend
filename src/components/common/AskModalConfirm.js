@@ -46,11 +46,13 @@ const StyledButton = styled(Button)`
     }
 `;
 
-const AskModal = ({
+const AskModalConfirm = ({
     visible,
     title,
     description,
     cancelText = '닫기',
+    confirmText = '확인',
+    onConfirm,
     onCancel,
     }) => {
     if (!visible) return null;
@@ -60,6 +62,7 @@ const AskModal = ({
                 <h2>{title}</h2>
                 <p>{description}</p>
                 <div className = "buttons">
+                    <StyledButton onClick={onConfirm}>{confirmText}</StyledButton>
                     <StyledButton onClick={onCancel}>{cancelText}</StyledButton>
                 </div>
             </AskModalBlock>
@@ -67,4 +70,4 @@ const AskModal = ({
     );
 };
 
-export default AskModal;
+export default AskModalConfirm;
