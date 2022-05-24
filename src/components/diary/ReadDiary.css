@@ -13,7 +13,7 @@
     font-weight: normal;
     margin: 0 auto;
     width: 90%;
-    border: 1px solid #333;
+    border: 2px dashed #333;
     padding: 30px 20px 30px 20px;
     border-radius: 5px;
     margin-bottom : 50px;
@@ -44,4 +44,10 @@
     display: flex;
     justify-content: center;
     margin-top: 3rem;
+}
+
+.content {
+    width: 97%;
+    margin: 0 auto;
+    line-height: 27px;
 }

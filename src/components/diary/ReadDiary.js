@@ -10,6 +10,13 @@ import { Pie } from 'react-chartjs-2';
 import AskModal from '../common/AskModalConfirm';
 import palette from '../../lib/styles/palette';
 import '../../lib/styles/fonts/font.css';
+import neutral from '../../images/neutral.png';
+import happy from '../../images/happy.png';
+import sad from '../../images/sad.png';
+import fear from '../../images/fear.png';
+import disgust from '../../images/disgust.png';
+import anger from '../../images/anger.png';
+import surprise from '../../images/surprise.png';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -80,16 +87,32 @@ const ReadDiary = () => {
 
     const onEmotionModalButtonClick = () => {
         setEmotionModal(true);
+        document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
     }
     const onEmotionCancel = () => {
         setEmotionModal(false);
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = '';
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     }
 
     const onKeywordModalButtonClick = () => {
         setKeywordModal(true);
+        document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
     }
     const onKeywordCancel = () => {
         setKeywordModal(false);
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = '';
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     }
 
     const onEmotionFeedbackModalClick = () => {
@@ -170,7 +193,63 @@ const ReadDiary = () => {
         addDiaryList();
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
-                return diarylist[j].emotion;
+                // return diarylist[j].emotion;
+                if(diarylist[j].emotion === '중립') {
+                    return (
+                        <>
+                        <img src={neutral} alt='neutral'/>
+                        <div>중립&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
+                else if(diarylist[j].emotion === '행복') {
+                    return (
+                        <>
+                        <img src={happy} alt='happy'/>
+                        <div>행복&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
+                else if(diarylist[j].emotion === '슬픔') {
+                    return (
+                        <>
+                        <img src={sad} alt='sad'/>
+                        <div>슬픔&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
+                else if(diarylist[j].emotion === '공포') {
+                    return (
+                        <>
+                        <img src={fear} alt='fear'/>
+                        <div>공포&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
+                else if(diarylist[j].emotion === '혐오') {
+                    return (
+                        <>
+                        <img src={disgust} alt='disgust'/>
+                        <div>혐오&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
+                else if(diarylist[j].emotion === '분노') {
+                    return (
+                        <>
+                        <img src={anger} alt='anger'/>
+                        <div>분노&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
+                else if(diarylist[j].emotion === '놀람') {
+                    return (
+                        <>
+                        <img src={surprise} alt='surprise'/>
+                        <div>놀람&nbsp;&nbsp;&nbsp;&nbsp;</div>
+                        </>
+                    )
+                }
             };
         };
     }
@@ -188,7 +267,7 @@ const ReadDiary = () => {
             };
         };
         return (
-            hashtag1 + ', ' + hashtag2 + ', ' + hashtag3
+            '#' + hashtag1 + ' #' + hashtag2 + ' #' + hashtag3
         )
     }
 
@@ -276,11 +355,17 @@ const ReadDiary = () => {
         .then((response) => {
             console.log(response);
             setEmotionModal(false);
+            const scrollY = document.body.style.top;
+            document.body.style.cssText = '';
+            window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
             navigate('/');
         })
         .catch((error) => {
             console.log(error.response);
             alert("다시 시도해주세요");
+            const scrollY = document.body.style.top;
+            document.body.style.cssText = '';
+            window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
         })
     }
 
@@ -290,11 +375,17 @@ const ReadDiary = () => {
         .then((response) => {
             console.log(response);
             setKeywordModal(false);
+            const scrollY = document.body.style.top;
+            document.body.style.cssText = '';
+            window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
             navigate('/');
         })
         .catch((error) => {
             console.log(error.response);
             alert("다시 시도해주세요");
+            const scrollY = document.body.style.top;
+            document.body.style.cssText = '';
+            window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
         })
     }
 
@@ -360,26 +451,24 @@ const ReadDiary = () => {
         </div>
             <div className='diary-container'>
                 <>
-                    <div>
-                        {'날짜 : ' + theDiaryDate()}
-                    </div>
+                    <h3 align='center'>
+                        {theDiaryDate()}
+                    </h3>
                     <br />
-                    <div>
-                        {'일기 내용 : '}
-                        <br />
+                    <div className='content'>
                         {theDiaryContent()}
-                    </div>
+                    
                     <br />
-                    <div>
-                        {'감정 : ' + theDiaryEmotion()}
-                    </div>
-                    <br />
-                    <div>
-                        {'키워드 : ' + theDiaryHashtag()}
-                    </div>
+                    <h4 align='right'>
+                        {theDiaryEmotion()}
+                    </h4>
+                    <h4 align='right'>
+                        {theDiaryHashtag()}
+                    </h4>
                     <br />
                     <div>
                         {theDiaryScore()}
+                    </div>
                     </div>
                     <br />
                     <div className='chart-container'>

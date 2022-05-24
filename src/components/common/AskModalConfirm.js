@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Button from './Button';
+import React, { useEffect } from 'react';
 
 const Fullscreen = styled.div`
     position: fixed;
@@ -55,6 +56,7 @@ const AskModalConfirm = ({
     onConfirm,
     onCancel,
     }) => {
+
     if (!visible) return null;
     return (
         <Fullscreen>

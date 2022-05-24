@@ -144,6 +144,9 @@ const Header = () => {
     }
     const onCancel = () => {
         setModal(false);
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = '';
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     }
 
     const [em, setEm] = useState('');
@@ -191,6 +194,11 @@ const Header = () => {
         if(today === 200){
             console.log(em);
             setModal(true);
+            document.body.style.cssText = `
+            position: fixed; 
+            top: -${window.scrollY}px;
+            overflow-y: scroll;
+            width: 100%;`;
         }
         else{
             alert("오늘 일기가 존재하지 않습니다.");
@@ -207,7 +215,7 @@ const Header = () => {
                     <button onClick={diaryAPI.diaryList}>list check</button>
                     <button onClick={diaryAPI.GetId}>id check</button>
                     <button onClick={googleAPI.check}>loginCheck</button>
-                    { !state ? (
+                    {!state ? (
                         <div className='right'>
                             <StyledButton onClick={googleAPI.login}>로그인</StyledButton>
                         </div> ) : 

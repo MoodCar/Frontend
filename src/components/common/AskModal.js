@@ -1,5 +1,6 @@
 import styled from 'styled-components';
 import Button from './Button';
+import React, { useEffect } from 'react';
 
 const Fullscreen = styled.div`
     position: fixed;
@@ -13,7 +14,6 @@ const Fullscreen = styled.div`
     justify-content: center;
     align-items: center;
     z-index: 1020;
-
 `;
 
 const AskModalBlock = styled.div`
@@ -47,12 +47,14 @@ const StyledButton = styled(Button)`
 `;
 
 const AskModal = ({
+
     visible,
     title,
     description,
     cancelText = '닫기',
     onCancel,
     }) => {
+    
     if (!visible) return null;
     return (
         <Fullscreen>

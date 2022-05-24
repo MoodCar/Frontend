@@ -205,9 +205,17 @@ const MyCalendar = (props) => {
     const [modal, setModal] = useState(false);
     const onModalButtonClick = () => {
         setModal(true);
+        document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
     }
     const onCancel = () => {
         setModal(false);
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = '';
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     }
 
     const data = {
@@ -230,7 +238,6 @@ const MyCalendar = (props) => {
 
     return (
         <div className="mypage-body">
-            <button onClick={onModalButtonClick}>팝업</button>
             <AskModal
                 visible={modal}
                 title="한달 통계"
@@ -254,8 +261,14 @@ const MyCalendar = (props) => {
                             eventClick= {handleEventClick}
                             events={addDiaryList()}
                             displayEventEnd = {true}
+                            customButtons={{
+                                myCustomButton: {
+                                    text: '한달 통계 보기',
+                                    click: onModalButtonClick
+                                },
+                            }}
                             headerToolbar={{
-                                left: "prevYear,prev",
+                                left: "prevYear,prev myCustomButton",
                                 center: "title",
                                 right: "today next,nextYear"
                             }}
