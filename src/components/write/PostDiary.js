@@ -116,7 +116,7 @@ const PostDiary = () => {
                     }}
                     onChange={(event, editor) => {
                         const data = editor.getData();
-                        console.log({ event, editor, data });
+                        // console.log({ event, editor, data });
                         setDiaryContent({
                             ...diaryContent,
                             content: data.replace("<p>", "").replace("</p>", "")

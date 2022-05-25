@@ -150,6 +150,10 @@ const Header = () => {
     }
 
     const [em, setEm] = useState('');
+    const [url, setUrl] = useState('');
+    const [contentName, setContentName] = useState('');
+    const [publisher, setPublisher] = useState('');
+    const [color, setColor] = useState('');
     let emotion;
     async function getData() {
         try {
@@ -165,6 +169,30 @@ const Header = () => {
         if (today === 200) {
             emotion = getTodayDiary.data.getTodayResult[0].emotion;
             setEm(getTodayDiary.data.getTodayResult[0].emotion);
+            setUrl(getTodayDiary.data.getTodayResult[0].url);
+            setContentName(getTodayDiary.data.getTodayResult[0].name);
+            setPublisher(getTodayDiary.data.getTodayResult[0].publisher);
+            if(getTodayDiary.data.getTodayResult[0].emotion === '행복') {
+                setColor('#eef18e');
+            }
+            else if(getTodayDiary.data.getTodayResult[0].emotion === '분노') {
+                setColor('#e44d4d')
+            }
+            else if(getTodayDiary.data.getTodayResult[0].emotion === '혐오') {
+                setColor('#df8243')
+            }
+            else if(getTodayDiary.data.getTodayResult[0].emotion === '공포') {
+                setColor('#60b671')
+            }
+            else if(getTodayDiary.data.getTodayResult[0].emotion === '중립') {
+                setColor('#808080')
+            }
+            else if(getTodayDiary.data.getTodayResult[0].emotion === '슬픔') {
+                setColor('#627ac4')
+            }
+            else if(getTodayDiary.data.getTodayResult[0].emotion === '놀람') {
+                setColor('#9474c8')
+            }
         } else {
             emotion = 0;
         }
@@ -192,7 +220,6 @@ const Header = () => {
     async function contentsButtonClick () {
         let [today, emotion] = await getData();
         if(today === 200){
-            console.log(em);
             setModal(true);
             document.body.style.cssText = `
             position: fixed; 
@@ -227,11 +254,13 @@ const Header = () => {
                                 title="콘텐츠 추천"
                                 description={
                                     <>
-                                    <div> {em} </div>
+                                    <div style={{ float: "left"}}> {'오늘 일기의 감정은'}&nbsp; </div> <div style={{ float: "left", backgroundColor: color, fontWeight: "bold"}}>&nbsp;{em}&nbsp;</div> <div style={{ float: "left"}}>{'입니다'}</div>
+                                    <br />
+                                    <div> {publisher + ' - ' + contentName} </div>
                                     <br />
                                     <ReactPlayer 
                                     className="react-player" 
-                                    url="https://www.youtube.com/watch?v=q3xy4p2JTfU" 
+                                    url={url}
                                     width="100%" 
                                     height="230px" 
                                     muted={true}

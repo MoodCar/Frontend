@@ -4,3 +4,11 @@
     font-family: "NeoDunggeunmo";
     font-weight: normal;
 }
+
+.contents {
+    text-align: center;
+}
+
+.emotion {
+    background-color: aquamarine;
+}
