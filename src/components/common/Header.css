@@ -5,10 +5,10 @@
     font-weight: normal;
 }
 
-.contents {
-    text-align: center;
-}
-
-.emotion {
-    background-color: aquamarine;
+.username {
+    font-family: "NeoDunggeunmo";
+    font-weight: normal;
+    margin-left: 1rem;
+    margin-right: 1rem;
+    padding-left: 1rem;
 }

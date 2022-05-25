@@ -14,6 +14,7 @@ import axios from 'axios';
 import * as diaryAPI from '../../lib/api/diary';
 import ReactPlayer from 'react-player/youtube'
 import AskModal from './AskModal';
+import '../../lib/styles/fonts/font.css';
 
 registerLocale("ko", ko) // 한국어적용
 const _ = require('lodash');
@@ -62,7 +63,11 @@ const Spacer = styled.div`
 
 const UserInfo = styled.div`
     font-weight: 800;
-    margin-right: 1rem;
+    margin-right: 0.5rem;
+    margin-left: 0.5rem;
+    font-family: NeoDunggeunmo;
+    font-size: 1.2rem;
+    font-weight: normal;
 `;
 
 const StyledButton = styled(Button)`
@@ -139,9 +144,6 @@ const SelectDate = (props) => {
 
 const Header = () => {
     const [modal, setModal] = useState(false);
-    const onModalButtonClick = () => {
-        setModal(true);
-    }
     const onCancel = () => {
         setModal(false);
         const scrollY = document.body.style.top;
@@ -239,9 +241,6 @@ const Header = () => {
                     <Link to="/" className="logo">
                         <img src={logo} />
                     </Link>
-                    <button onClick={diaryAPI.diaryList}>list check</button>
-                    <button onClick={diaryAPI.GetId}>id check</button>
-                    <button onClick={googleAPI.check}>loginCheck</button>
                     {!state ? (
                         <div className='right'>
                             <StyledButton onClick={googleAPI.login}>로그인</StyledButton>
@@ -277,7 +276,9 @@ const Header = () => {
                             <StyledButton onClick ={writeButtonClick}>
                                 일기 작성
                             </StyledButton>
-                            <googleAPI.Users />
+                            <UserInfo>
+                                <googleAPI.Users />
+                            </UserInfo>
                             <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
                         </div>
                     )}

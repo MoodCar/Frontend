@@ -4,6 +4,13 @@ import { useState, useEffect, useRef } from 'react';
 import axios from 'axios';
 import { useLocation } from 'react-router-dom';
 import { useNavigate } from 'react-router';
+import neutral from '../../images/neutral.png';
+import happy from '../../images/happy.png';
+import sad from '../../images/sad.png';
+import fear from '../../images/fear.png';
+import disgust from '../../images/disgust.png';
+import anger from '../../images/anger.png';
+import surprise from '../../images/surprise.png';
 
 const SearchDiary = () => {
     
@@ -58,11 +65,75 @@ const SearchDiary = () => {
         // window.location.href = `http://localhost:3000/read/:${diaryid[j]}`;
     }
 
+    const emotionRender = (emo) => {
+        if (emo === '중립') {
+            return (
+                <>
+                <img src={neutral} alt='neutral'/>
+                <div>중립</div>
+                </>
+            )
+        }
+        else if (emo === '행복') {
+            return (
+                <>
+                <img src={happy} alt='happy'/>
+                <div>행복</div>
+                </>
+            )
+        }
+        else if (emo === '슬픔') {
+            return (
+                <>
+                <img src={sad} alt='sad'/>
+                <div>슬픔</div>
+                </>
+            )
+        }
+        else if (emo === '공포') {
+            return (
+                <>
+                <img src={fear} alt='fear'/>
+                <div>공포</div>
+                </>
+            )
+        }
+        else if (emo === '놀람') {
+            return (
+                <>
+                <img src={surprise} alt='surprise'/>
+                <div>놀람</div>
+                </>
+            )
+        }
+        else if (emo === '혐오') {
+            return (
+                <>
+                <img src={disgust} alt='disgust'/>
+                <div>혐오</div>
+                </>
+            )
+        }
+        else if (emo === '분노') {
+            return (
+                <>
+                <img src={anger} alt='anger'/>
+                <div>분노</div>
+                </>
+            )
+        }
+    }
+
     function viewSearchList () {
         const items = searchlist.map((element) =>
             <>
-            <div className='date' key={element.written_date} onClick={()=>goDiary(element.id)}>{element.written_date}</div>
-            <div className='diary-card' key={element.id} onClick={()=>goDiary(element.id)}>{element.content}</div>
+            {/* <div className='date' key={element.written_date} onClick={()=>goDiary(element.id)}>{element.written_date}</div> */}
+            {/* <div className='diary-card' key={element.id} onClick={()=>goDiary(element.id)}>{element.written_date}</div> */}
+            <div className='diary-card' onClick={()=>goDiary(element.id)}>
+                <div className='date-wrapper' key={element.written_date}>{element.written_date}</div> <br />
+                <div className='content-wrapper' key={element.content}>{element.content}</div> <br />
+                <div className='emotion-wrapper' key={element.emotion}>{emotionRender(element.emotion)}</div>
+            </div>
             </>
         );
 
@@ -70,7 +141,9 @@ const SearchDiary = () => {
         const items_content = searchlist.map((element) => (element.content));
         
         return (
+            <>
             <div>{items}</div>
+            </>
         )
     }
 

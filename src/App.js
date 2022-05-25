@@ -5,11 +5,13 @@ import MainPage from './pages/MainPage';
 import WritePage from './pages/WritePage';
 import DiaryPage from './pages/DiaryPage';
 import SearchPage from './pages/SearchPage';
+import LoginPage from './pages/LoginPage';
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<MainPage />} />
+      <Route path="/main" element={<LoginPage />} />
       <Route path="/write" element={<WritePage />} />
       <Route path="/search" element={<SearchPage />} />
       {/* <Route path="/@:email">

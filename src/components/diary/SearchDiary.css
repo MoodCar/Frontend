@@ -24,6 +24,7 @@
 .date {
     margin: 0 auto;
     display: flex;
+    justify-content: center;
     margin-left: 3rem;
     margin-bottom: 8px;
     cursor: pointer;
@@ -34,7 +35,6 @@
     margin: 0 auto;
     width: 90%;
     border: 1px solid #333;
-    display: flex;
     justify-content: center;
     padding: 30px 40px 30px 40px;
     border-radius: 5px;
@@ -42,6 +42,23 @@
     cursor: pointer;
 }
 
+.date-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+    font-weight: bold;
+}
+
+.content-wrapper {
+    width: 100%;
+    margin: 0 auto;
+}
+
+.emotion-wrapper {
+    width: 100%;
+    margin: 0 auto;
+    text-align: center;
+}
 .searchbutton {
     margin-left: 1rem;
     height: 40px;
