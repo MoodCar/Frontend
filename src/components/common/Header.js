@@ -239,7 +239,7 @@ const Header = () => {
             <HeaderBlock>
                 <Wrapper>
                     <Link to="/" className="logo">
-                        <img src={logo} />
+                        <img src={logo} alt="logo" />
                     </Link>
                     {!state ? (
                         <div className='right'>

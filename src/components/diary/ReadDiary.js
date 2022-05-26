@@ -8,6 +8,7 @@ import ReactHtmlParser from 'html-react-parser';
 import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
 import { Pie } from 'react-chartjs-2';
 import AskModal from '../common/AskModalConfirm';
+import AskModalBig from '../common/AskModalBig';
 import palette from '../../lib/styles/palette';
 import '../../lib/styles/fonts/font.css';
 import neutral from '../../images/neutral.png';
@@ -17,6 +18,7 @@ import fear from '../../images/fear.png';
 import disgust from '../../images/disgust.png';
 import anger from '../../images/anger.png';
 import surprise from '../../images/surprise.png';
+import loading_image from '../../images/loading.gif';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -62,12 +64,23 @@ const SelectBox = styled.select`
 
 const TextArea = styled.textarea`
     width: 100%;
-    height: 2em;
+    height: 2rem;
     resize: none;
     margin-top: 10px;
     font-family: "S-CoreDream-3Light";
     font-size: 1.1rem;
     font-weight: normal;
+`;
+
+const ContentArea = styled.textarea`
+    width: 100%;
+    height: 200px;
+    resize: none;
+    margin-top: 10px;
+    font-family: "S-CoreDream-3Light";
+    font-size: 1.1rem;
+    font-weight: normal;
+    padding: 15px;
 `;
 
 const ReadDiary = () => {
@@ -80,10 +93,19 @@ const ReadDiary = () => {
     const [keywordModal, setKeywordModal] = useState(false);
     const [emotionFeedbackModal, setEmotionFeedbackModal] = useState(false);
     const [keywordFeedbackModal, setKeywordFeedbackModal] = useState(false);
-    const [emotion, setEmotion] = useState('');
+    const [editModal, setEditModal] = useState(false);
+    const [changedEmotion, setChangedEmotion] = useState('');
     const [keyword1, setKeyword1] = useState('');
     const [keyword2, setKeyword2] = useState('');
     const [keyword3, setKeyword3] = useState('');
+    const [feedback, setFeedback] = useState('');
+    const [changedContent, setChangedContent] = useState('');
+    const [loading, setLoading] = useState(false);
+    let theContent = '';
+    let theEmotion = '';
+    let theKeyword1 = '';
+    let theKeyword2 = '';
+    let theKeyword3 = '';
 
     const onEmotionModalButtonClick = () => {
         setEmotionModal(true);
@@ -127,6 +149,22 @@ const ReadDiary = () => {
     }
     const onKeywordFeedbackCancel = () => {
         setKeywordFeedbackModal(false);
+    }
+
+    const onEditModalButtonClick = () => {
+        // navigate('/write');
+        setEditModal(true);
+        document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+    };
+    const onEditCancel = () => {
+        setEditModal(false);
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = '';
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     }
 
     useEffect(() => {
@@ -173,6 +211,7 @@ const ReadDiary = () => {
         let info = diarylist.map(diary => (diary.id));
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
+                theContent = diarylist[j].content;
                 return ReactHtmlParser(diarylist[j].content);
             };
         };
@@ -194,6 +233,7 @@ const ReadDiary = () => {
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
                 // return diarylist[j].emotion;
+                theEmotion = diarylist[j].emotion;
                 if(diarylist[j].emotion === '중립') {
                     return (
                         <>
@@ -256,18 +296,15 @@ const ReadDiary = () => {
 
     function theDiaryHashtag() {
         addDiaryList();
-        let hashtag1 = '';
-        let hashtag2 = '';
-        let hashtag3 = '';
         for (var j=0; j<diarylist.length; j++) {
             if(path === '/read/:' + info[j]) {
-                hashtag1=diarylist[j].hashtag_1;
-                hashtag2=diarylist[j].hashtag_2;
-                hashtag3=diarylist[j].hashtag_3;
+                theKeyword1 = diarylist[j].hashtag_1;
+                theKeyword2 = diarylist[j].hashtag_2;
+                theKeyword3 = diarylist[j].hashtag_3;
             };
         };
         return (
-            '#' + hashtag1 + ' #' + hashtag2 + ' #' + hashtag3
+            '#' + theKeyword1 + ' #' + theKeyword2 + ' #' + theKeyword3
         )
     }
 
@@ -317,10 +354,6 @@ const ReadDiary = () => {
         { value: "혐오", name: "혐오" },
     ];
 
-    const onEdit = () => {
-        navigate('/write');
-    };
-
     const onRemove = async() => {
         await axios
         .delete(`http://3.39.17.18/diaries/details/${diaryid}`, { withCredentials: true })
@@ -334,7 +367,7 @@ const ReadDiary = () => {
     };
 
     const handleSelectChange = (e) => {
-        setEmotion(e.target.value);
+        setChangedEmotion(e.target.value);
     }
 
     const handleTag1Change = (e) => {
@@ -349,9 +382,17 @@ const ReadDiary = () => {
         setKeyword3(e.target.value);
     }
 
+    const feedbackChange = (e) => {
+        setFeedback(e.target.value);
+    }
+
+    const contentChange = (e) => {
+        setChangedContent(e.target.value);
+    }
+
     const onEditEmotion = async () => {
         await axios
-        .patch(`http://3.39.17.18/diaries/emotions/${diaryid}`, { emotion: emotion }, { withCredentials: true })
+        .patch(`http://3.39.17.18/diaries/emotions/${diaryid}`, { emotion: changedEmotion }, { withCredentials: true })
         .then((response) => {
             console.log(response);
             setEmotionModal(false);
@@ -391,7 +432,51 @@ const ReadDiary = () => {
 
     const onEmotionFeedback = async () => {
         await axios
-        .post('http://3.39.17.18/feedbacks/emotions', { withCredentials: true })
+        .post('http://3.39.17.18/feedbacks/emotions', { diary_content: theContent, emotion_original: theEmotion, emotion_changed : changedEmotion, opinion: feedback }, { withCredentials: true })
+        .then((response) => {
+            console.log(response);
+            alert("피드백을 보냈습니다");
+        })
+        .catch((error) => {
+            console.log(error.response);
+            alert("다시 시도해 주세요");
+        })
+    }
+
+    const onKeywordFeedback = async () => {
+        await axios
+        .post('http://3.39.17.18/feedbacks/hashtags',
+            { diary_content: theContent,
+                hashtag1_original: theKeyword1, hashtag1_changed: keyword1,
+                hashtag2_original: theKeyword2, hashtag2_changed: keyword2,
+                hashtag3_original: theKeyword3, hashtag3_changed: keyword3,
+                opinion: feedback }, { withCredentials:true })
+        .then((response) => {
+            console.log(response);
+            alert("피드백을 보냈습니다");
+        })
+        .catch((error) => {
+            console.log(error.response);
+            alert("다시 시도해 주세요");
+        })
+    }
+
+    const onEdit = async() => {
+        setLoading(true);
+        await axios
+        .patch(`http://3.39.17.18/diaries/details/${diaryid}`, { content: changedContent }, { withCredentials:true })
+        .then((response) => {
+            console.log(response);
+            setKeywordModal(false);
+            setLoading(false);
+            const scrollY = document.body.style.top;
+            document.body.style.cssText = '';
+            window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+            navigate('/');
+        })
+        .catch((response) => {
+            console.log(response);
+        })
     }
 
     return (
@@ -400,7 +485,23 @@ const ReadDiary = () => {
             <h2>일기 세부 내용</h2>
         </div>
         <div className = "button-container">
-            <StyledButton onClick={onEdit}>수정</StyledButton>
+            <StyledButton onClick={onEditModalButtonClick}>수정</StyledButton>
+            <AskModalBig
+                visible={editModal}
+                title="일기 내용 수정"
+                description={
+                    // <TextArea onChange={contentChange} placeholder="수정할 일기 내용" />
+                    <div>
+                        {loading ? 
+                        <div style={{textAlign:"center"}}>
+                            <img src={loading_image} alt="loading" /> </div> :
+                            <ContentArea onChange={contentChange} placeholder="일기 내용을 입력해 주세요" />
+                        }
+                    </div>
+                }
+                onConfirm={onEdit}
+                onCancel={onEditCancel}
+            />
             <StyledButton onClick={onRemove}>삭제</StyledButton>
             <StyledButton onClick={() => navigate('/')}>홈</StyledButton>
         </div>
@@ -410,6 +511,7 @@ const ReadDiary = () => {
                 visible={emotionModal}
                 title="감정 수정"
                 description={
+                    <>
                     <SelectBox onChange={handleSelectChange}>
                         {OPTIONS.map((option) => (
 				            <option
@@ -419,7 +521,11 @@ const ReadDiary = () => {
 					        {option.name}
 				            </option>
 			            ))}
-                    </SelectBox>}
+                    </SelectBox>
+                    <br /><div>피드백</div>
+                    <TextArea onChange={feedbackChange} placeholder="피드백을 입력해 주세요" />
+                    <StyledButton style={{float:"right"}} onClick={onEmotionFeedback}>피드백 보내기</StyledButton>
+                    </>}
                 onConfirm={onEditEmotion}
                 onCancel={onEmotionCancel}
             />
@@ -443,6 +549,10 @@ const ReadDiary = () => {
                         <div>{"키워드 3"}</div>
                         <TextArea onChange={handleTag3Change} placeholder="키워드를 입력해 주세요"/>
                     </div>
+                    <br />
+                    <div>피드백</div>
+                    <TextArea onChange={feedbackChange} placeholder="피드백을 입력해 주세요" />
+                    <StyledButton style={{float:"right"}} onClick={onKeywordFeedback}>피드백 보내기</StyledButton>
                     </>
                 }
                 onConfirm={onEditKeyword}

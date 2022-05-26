@@ -4,10 +4,12 @@ import PostDiary from "../components/write/PostDiary.js";
 
 const WritePage = () => {
     return (
-        <Responsive>
+        // <Responsive>
+        <>
             <HeaderContainer />
             <PostDiary />
-        </Responsive>
+        </>
+        // </Responsive>
     );
 };
 

@@ -56,15 +56,6 @@ const PostDiary = () => {
     let path = location.pathname;
     let diaryid = path.substring(7);
 
-    function theDiaryContent() {
-        let info = diarylist.map(diary => (diary.id));
-        for (var j=0; j<diarylist.length; j++) {
-            if(path === '/write/:' + info[j]) {
-                return ReactHtmlParser(diarylist[j].content);
-            };
-        };
-    }
-
     const submitContent = async() => {
         setLoading(true);
         await axios
@@ -110,7 +101,7 @@ const PostDiary = () => {
                 <CKEditor
                     editor={ClassicEditor}
                     // data=""
-                    data={theDiaryContent()}
+                    data={''}
                     onReady={editor => {
                         console.log('Editor is ready to use', editor);
                     }}
@@ -120,15 +111,15 @@ const PostDiary = () => {
                         setDiaryContent({
                             ...diaryContent,
                             content: data.replace("<p>", "").replace("</p>", "")
-                        })
-                        console.log(diaryContent);
+                        })  
                     }}
                     onBlur = {(event, editor) => {
-                        console.log('Blur.', editor);
+                        // console.log('Blur.', editor);
                     }}
                     onFocus={(event, editor) => {
-                        console.log('Focus.', editor);
+                        // console.log('Focus.', editor);
                     }}
+                    // locale={{dateTimeFormat: date => format( date, 'yyyy-MM-dd' )}}
                 />
                 </div>
                 <div className='buttons'>
