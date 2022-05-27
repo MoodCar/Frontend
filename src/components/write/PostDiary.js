@@ -70,7 +70,7 @@ const PostDiary = () => {
                 alert('등록 완료');
                 setLoading(false);
                 console.log(diaryContent.content);
-                navigate('/');
+                navigate('/main');
             })
             .catch((error) => {
                 console.log(error.response);

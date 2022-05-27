@@ -359,7 +359,7 @@ const ReadDiary = () => {
         .delete(`http://3.39.17.18/diaries/details/${diaryid}`, { withCredentials: true })
         .then((response) => {
             console.log(response);
-            navigate('/');
+            navigate('/main');
         })
         .catch((error) => {
             console.log(error.response);
@@ -399,7 +399,7 @@ const ReadDiary = () => {
             const scrollY = document.body.style.top;
             document.body.style.cssText = '';
             window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-            navigate('/');
+            navigate('/main');
         })
         .catch((error) => {
             console.log(error.response);
@@ -419,7 +419,7 @@ const ReadDiary = () => {
             const scrollY = document.body.style.top;
             document.body.style.cssText = '';
             window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-            navigate('/');
+            navigate('/main');
         })
         .catch((error) => {
             console.log(error.response);
@@ -472,7 +472,7 @@ const ReadDiary = () => {
             const scrollY = document.body.style.top;
             document.body.style.cssText = '';
             window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
-            navigate('/');
+            navigate('/main');
         })
         .catch((response) => {
             console.log(response);
@@ -503,7 +503,7 @@ const ReadDiary = () => {
                 onCancel={onEditCancel}
             />
             <StyledButton onClick={onRemove}>삭제</StyledButton>
-            <StyledButton onClick={() => navigate('/')}>홈</StyledButton>
+            <StyledButton onClick={() => navigate('/main')}>홈</StyledButton>
         </div>
         <div className='button-container'>
             <StyledButton onClick={onEmotionModalButtonClick}>감정 수정</StyledButton>
@@ -584,7 +584,7 @@ const ReadDiary = () => {
                     <div className='chart-container'>
                         <Pie data={data} />
                     </div>
-                    <div className='feedback-buttons'>
+                    {/* <div className='feedback-buttons'>
                         <StyledButton onClick={onEmotionFeedbackModalClick}>감정 피드백 보내기</StyledButton>
                         <AskModal
                             visible={emotionFeedbackModal}
@@ -594,7 +594,7 @@ const ReadDiary = () => {
                             onCancel={onEmotionFeedbackCancel}
                         />
                         <StyledButton onClick={onKeywordFeedbackModalClick}>키워드 피드백 보내기</StyledButton>
-                    </div>
+                    </div> */}
                 </>
             </div>
         </>

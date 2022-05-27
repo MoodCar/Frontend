@@ -10,8 +10,8 @@ import LoginPage from './pages/LoginPage';
 function App() {
   return (
     <Routes>
-      <Route path="/" element={<MainPage />} />
-      <Route path="/main" element={<LoginPage />} />
+      <Route path="/" element={<LoginPage />} />
+      <Route path="/main" element={<MainPage />} />
       <Route path="/write" element={<WritePage />} />
       <Route path="/search" element={<SearchPage />} />
       {/* <Route path="/@:email">

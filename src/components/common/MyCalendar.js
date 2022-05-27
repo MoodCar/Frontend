@@ -244,7 +244,7 @@ const MyCalendar = (props) => {
                 description={<Pie data={data} />}
                 onCancel={onCancel}
             />
-            <div className="body-warpper box">
+            <div className="body-warpperbox">
                 <div className="body-info-container">
                     <div className="calendar-wrapper">
                         <CalendarBlock>
