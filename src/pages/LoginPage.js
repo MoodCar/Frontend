@@ -48,21 +48,21 @@ const LoginPage = () => {
                     <div style={{marginTop:"6rem"}}>
                         <img src={happy} alt='happy' />
                         <div style={{fontFamily:"NeoDunggeunmo", fontSize:"2rem", fontWeight:"normal", marginTop:"1rem"}}>감정</div>
-                        <div style={{fontFamily:"S-CoreDream-3Light", fontSize:"1.5rem", fontWeight:"normal", marginTop:"1rem"}}>{'작성한 일기에서'}<br/>{'감정을 추출해줍니다'}</div>
+                        <div style={{fontFamily:"S-CoreDream-3Light", fontSize:"1.5rem", fontWeight:"normal", marginTop:"1rem"}}>{'작성한 일기에서'}<br/>{'감정을 추출해 줍니다'}</div>
                     </div>
                 </div>
                 <div style={{textAlign:"center", border:"3px dashed black", borderRadius:"15px", padding:"15px", float:"left", width:"30%", display:"inline-block", margin:"10px"}}>
                     <div style={{marginTop:"6rem"}}>
                         <img src={tag} alt='tag' />
                         <div style={{fontFamily:"NeoDunggeunmo", fontSize:"2rem", fontWeight:"normal", marginTop:"1rem"}}>키워드</div>
-                        <div style={{fontFamily:"S-CoreDream-3Light", fontSize:"1.5rem", fontWeight:"normal", marginTop:"1rem"}}>{'작성한 일기에서'}<br/>{'키워드를 추출해줍니다'}</div>
+                        <div style={{fontFamily:"S-CoreDream-3Light", fontSize:"1.5rem", fontWeight:"normal", marginTop:"1rem"}}>{'작성한 일기에서'}<br/>{'키워드를 추출해 줍니다'}</div>
                     </div>
                 </div>
                 <div style={{textAlign:"center", border:"3px dashed black", borderRadius:"15px", padding:"15px", float:"left", width:"30%", display:"inline-block", margin:"10px"}}>
                     <div style={{marginTop:"6rem"}}>
                         <img src={cd} alt='cd' />
                         <div style={{fontFamily:"NeoDunggeunmo", fontSize:"2rem", fontWeight:"normal", marginTop:"1rem"}}>콘텐츠</div>
-                        <div style={{fontFamily:"S-CoreDream-3Light", fontSize:"1.5rem", fontWeight:"normal", marginTop:"1rem"}}>{'오늘 작성한 일기의'}<br/>{'감정에 따른 콘텐츠를 추천해줍니다'}</div>
+                        <div style={{fontFamily:"S-CoreDream-3Light", fontSize:"1.5rem", fontWeight:"normal", marginTop:"1rem"}}>{'오늘 작성한 일기의'}<br/>{'감정에 따른 콘텐츠를 추천해 줍니다'}</div>
                     </div>
                 </div>
             {/* </div> */}

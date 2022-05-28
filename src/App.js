@@ -6,6 +6,7 @@ import WritePage from './pages/WritePage';
 import DiaryPage from './pages/DiaryPage';
 import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
+import StatisticsPage from './pages/StatisticsPage';
 
 function App() {
   return (
@@ -23,6 +24,7 @@ function App() {
         <Route index element={<MainPage />} />
         <Route path=":diaryId" element={<DiaryPage />} />
       </Route>
+      <Route path="/statistics" element={<StatisticsPage />} />
     </Routes>
   );
 }

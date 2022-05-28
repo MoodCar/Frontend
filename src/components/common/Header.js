@@ -233,12 +233,16 @@ const Header = () => {
             alert("오늘 일기가 존재하지 않습니다.");
         }
     }
+
+    function statsButtonClick() {
+        window.location.href = 'http://localhost:3000/statistics';
+    }
     const state = 200;
     return (
         <>
             <HeaderBlock>
                 <Wrapper>
-                    <Link to="/" className="logo">
+                    <Link to="/main" className="logo">
                         <img src={logo} alt="logo" />
                     </Link>
                     {!state ? (
@@ -247,6 +251,7 @@ const Header = () => {
                         </div> ) : 
                     (
                         <div className="right">
+                            <StyledButton onClick={statsButtonClick}>통계 보기</StyledButton>
                             <StyledButton onClick={contentsButtonClick}>contents</StyledButton>
                             <AskModal
                                 visible={modal}

@@ -261,14 +261,14 @@ const MyCalendar = (props) => {
                             eventClick= {handleEventClick}
                             events={addDiaryList()}
                             displayEventEnd = {true}
-                            customButtons={{
-                                myCustomButton: {
-                                    text: '한달 통계 보기',
-                                    click: onModalButtonClick
-                                },
-                            }}
+                            // customButtons={{
+                            //     myCustomButton: {
+                            //         text: '한달 통계 보기',
+                            //         click: onModalButtonClick
+                            //     },
+                            // }}
                             headerToolbar={{
-                                left: "prevYear,prev myCustomButton",
+                                left: "prevYear,prev",
                                 center: "title",
                                 right: "today next,nextYear"
                             }}
