@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import Button from '../common/Button';
 import Spinner from '../common/Spinner';
-import loading_image from '../../images/loading.gif';
+import loading_image from '../../images/loading_emotion.gif';
 
 const PostDiary = () => {
 
@@ -95,8 +95,11 @@ const PostDiary = () => {
     return (
         <div className="PostDiary">
             <h2>일기 작성</h2>
-            {loading ? <img src={loading_image} /> : null }
-            <>
+            {loading ?
+                <div style={{marginTop:"4rem"}}>
+                <img src={loading_image} alt="loading"/>
+                <div style={{fontSize:"1.2rem", marginTop:"0.5rem", marginBottom:"1.5rem"}}>{'일기 작성 중입니다'}</div> </div> :
+                <>
                 <div className='form-wrapper'>
                 <CKEditor
                     editor={ClassicEditor}
@@ -126,7 +129,7 @@ const PostDiary = () => {
                     <Button className="submit-button" onClick={submitContent}>일기 등록</Button>
                     <Button className="cancel-button" onClick={cancel}>취소</Button>
                 </div>
-            </>
+            </> }
         </div>
     );
 };

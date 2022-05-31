@@ -27,43 +27,43 @@
 
 .image.neutralSelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(128, 128, 128, 1.0) 40%, rgb(128, 128, 128, 0.5) 20% , rgb(128, 128, 128, 0.0));
+    background: radial-gradient(circle, rgb(128, 128, 128, 1.0) 30%, rgb(128, 128, 128, 0.5) 20% , rgb(128, 128, 128, 0.0));
     border-radius: 70%;
 }
 
 .image.happySelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(238, 241, 142, 1.0) 40%, rgb(238, 241, 142, 0.5) 20% , rgb(238, 241, 142, 0.0));
+    background: radial-gradient(circle, rgb(238, 241, 142, 1.0) 30%, rgb(238, 241, 142, 0.5) 20% , rgb(238, 241, 142, 0.0));
     border-radius: 70%;
 }
 
 .image.sadSelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(98, 122, 196, 1.0) 40%, rgb(98, 122, 196, 0.5) 20% , rgb(98, 122, 196, 0.0));
+    background: radial-gradient(circle, rgb(98, 122, 196, 1.0) 30%, rgb(98, 122, 196, 0.5) 20% , rgb(98, 122, 196, 0.0));
     border-radius: 70%;
 }
 
 .image.fearSelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(96, 182, 113, 1.0) 40%, rgb(96, 182, 113, 0.5) 20% , rgb(96, 182, 113, 0.0));
+    background: radial-gradient(circle, rgb(96, 182, 113, 1.0) 30%, rgb(96, 182, 113, 0.5) 20% , rgb(96, 182, 113, 0.0));
     border-radius: 70%;
 }
 
 .image.disgustSelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(223, 130, 67, 1.0) 40%, rgb(223, 130, 67, 0.5) 20% , rgb(223, 130, 67, 0.0));
+    background: radial-gradient(circle, rgb(223, 130, 67, 1.0) 30%, rgb(223, 130, 67, 0.5) 20% , rgb(223, 130, 67, 0.0));
     border-radius: 70%;
 }
 
 .image.angerSelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(228, 77, 77, 1.0) 40%, rgb(228, 77, 77, 0.5) 20% , rgb(228, 77, 77, 0.0));
+    background: radial-gradient(circle, rgb(228, 77, 77, 1.0) 30%, rgb(228, 77, 77, 0.5) 20% , rgb(228, 77, 77, 0.0));
     border-radius: 70%;
 }
 
 .image.surpriseSelect {
     flex: 1;
-    background: radial-gradient(circle, rgb(148, 116, 200, 1.0) 40%, rgb(148, 116, 200, 0.5) 20% , rgb(148, 116, 200, 0.0));
+    background: radial-gradient(circle, rgb(148, 116, 200, 1.0) 30%, rgb(148, 116, 200, 0.5) 20% , rgb(148, 116, 200, 0.0));
     border-radius: 70%;
 }
 

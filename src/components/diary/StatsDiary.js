@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React, { useState, useEffect, useRef, useCallback } from 'react';
 import { useNavigate } from 'react-router';
 import axios from 'axios';
 import happy_folder from '../../images/happy_folder.png';
@@ -51,7 +51,7 @@ const StatsDiary = () => {
     const [color6, setColor6] = useState(true);
     const [color7, setColor7] = useState(true);
     const navigate = useNavigate();
-
+/*
     useEffect(() => {
         axios
         .get('/checklogin', { withCredentials: true })
@@ -61,7 +61,7 @@ const StatsDiary = () => {
             .get(`http://3.39.17.18/diaries/emotioncounts/${provider_Id.current}`, { withCredentials: true })
             .then((response) => {
                 setEmotionlist(response.data.emotionCountResult);
-                console.log(response);
+                console.log(response.data);
                 neutral.current = response.data.emotionCountResult[0].중립;
                 happy.current = response.data.emotionCountResult[0].행복;
                 sad.current = response.data.emotionCountResult[0].슬픔;
@@ -75,7 +75,35 @@ const StatsDiary = () => {
                 console.log(error.response);
             })
         })
-    }, [])
+    }, [])*/
+
+    useEffect(() => {
+        async function getData() {
+            await axios
+            .get('/checklogin', { withCredentials: true })
+            .then(response => {
+                provider_Id.current = response.data[0].providerId;
+                axios
+                .get(`http://3.39.17.18/diaries/emotioncounts/${provider_Id.current}`, { withCredentials: true })
+                .then((response) => {
+                    setEmotionlist(response.data.emotionCountResult);
+                    console.log(response.data);
+                    neutral.current = response.data.emotionCountResult[0].중립;
+                    happy.current = response.data.emotionCountResult[0].행복;
+                    sad.current = response.data.emotionCountResult[0].슬픔;
+                    fear.current = response.data.emotionCountResult[0].공포;
+                    disgust.current = response.data.emotionCountResult[0].혐오;
+                    anger.current = response.data.emotionCountResult[0].분노;
+                    surprise.current = response.data.emotionCountResult[0].놀람;
+                    total.current = neutral.current + happy.current + sad.current + fear.current + disgust.current + anger.current + surprise.current;
+                })
+                .catch((error) => {
+                    console.log(error.response);
+                })
+            })
+        }
+        getData();
+    }, [provider_Id.current])
 
     const data = {
         labels: ['전체', '중립', '행복', '슬픔', '공포', '혐오', '분노', '놀람'],
@@ -240,30 +268,37 @@ const StatsDiary = () => {
             <h2>통계 보기</h2>
         </div>
         <div className='chart-wrapper'>
-            <Bar options={options} data={data} />
+            <Bar type={"bar"} options={options} data={data} />
         </div>
         <div className='folders'>
             <div className={`image ${color1 ? '' : 'neutralSelect'}`} onClick={neutralClick}>
             {/* <div className="image" onClick={neutralClick}> */}
                 <img src={neutral_folder} alt='neutral_folder' />   
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'중립'}</div>
             </div>
             <div className={`image ${color2 ? '' : 'happySelect'}`} onClick={happyClick}>
-                <img src={happy_folder} alt='sad_folder' />   
+                <img src={happy_folder} alt='sad_folder' />
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'행복'}</div>
             </div>
             <div className={`image ${color3 ? '' : 'sadSelect'}`} onClick={sadClick}>
                 <img src={sad_folder} alt='sad_folder' />   
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'슬픔'}</div>
             </div>
             <div className={`image ${color4 ? '' : 'fearSelect'}`} onClick={fearClick}>
                 <img src={fear_folder} alt='fear_folder' />   
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'공포'}</div>
             </div>
             <div className={`image ${color5 ? '' : 'disgustSelect'}`} onClick={disgustClick}>
                 <img src={disgust_folder} alt='disgust_folder' />   
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'혐오'}</div>
             </div>
             <div className={`image ${color6 ? '' : 'angerSelect'}`} onClick={angerClick}>
                 <img src={anger_folder} alt='anger_folder' />   
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'분노'}</div>
             </div>
             <div className={`image ${color7 ? '' : 'surpriseSelect'}`} onClick={surpriseClick}>
                 <img src={surprise_folder} alt='surprise_folder' />   
+                <div style={{fontFamily:"S-CoreDream-2Light", fontSize:"1.2rem", fontWeight:"bold", marginTop:"0.3rem"}}>{'놀람'}</div>
             </div>
         </div>
         <div className='search-result'>

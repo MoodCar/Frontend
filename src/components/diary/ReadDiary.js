@@ -91,8 +91,9 @@ const ReadDiary = () => {
     const provider_Id = useRef(null);
     const [emotionModal, setEmotionModal] = useState(false);
     const [keywordModal, setKeywordModal] = useState(false);
-    const [emotionFeedbackModal, setEmotionFeedbackModal] = useState(false);
-    const [keywordFeedbackModal, setKeywordFeedbackModal] = useState(false);
+    const [removeModal, setRemoveModal] = useState(false);
+    // const [emotionFeedbackModal, setEmotionFeedbackModal] = useState(false);
+    // const [keywordFeedbackModal, setKeywordFeedbackModal] = useState(false);
     const [editModal, setEditModal] = useState(false);
     const [changedEmotion, setChangedEmotion] = useState('');
     const [keyword1, setKeyword1] = useState('');
@@ -101,7 +102,8 @@ const ReadDiary = () => {
     const [feedback, setFeedback] = useState('');
     const [changedContent, setChangedContent] = useState('');
     const [loading, setLoading] = useState(false);
-    let theContent = '';
+    const [content, setContent] = useState('');
+    var theContent = 'default';
     let theEmotion = '';
     let theKeyword1 = '';
     let theKeyword2 = '';
@@ -137,6 +139,21 @@ const ReadDiary = () => {
         window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
     }
 
+    const onRemoveModal = () => {
+        setRemoveModal(true);
+        document.body.style.cssText = `
+        position: fixed; 
+        top: -${window.scrollY}px;
+        overflow-y: scroll;
+        width: 100%;`;
+    }
+    const onRemoveCancel = () => {
+        setRemoveModal(false);
+        const scrollY = document.body.style.top;
+        document.body.style.cssText = '';
+        window.scrollTo(0, parseInt(scrollY || '0', 10) * -1);
+    }
+/*
     const onEmotionFeedbackModalClick = () => {
         setEmotionFeedbackModal(true);
     }
@@ -149,11 +166,12 @@ const ReadDiary = () => {
     }
     const onKeywordFeedbackCancel = () => {
         setKeywordFeedbackModal(false);
-    }
+    } */
 
     const onEditModalButtonClick = () => {
         // navigate('/write');
         setEditModal(true);
+        console.log(theContent);
         document.body.style.cssText = `
         position: fixed; 
         top: -${window.scrollY}px;
@@ -495,14 +513,22 @@ const ReadDiary = () => {
                         {loading ? 
                         <div style={{textAlign:"center"}}>
                             <img src={loading_image} alt="loading" /> </div> :
-                            <ContentArea onChange={contentChange} placeholder="일기 내용을 입력해 주세요" />
+                            // <ContentArea onChange={contentChange} placeholder="일기 내용을 입력해 주세요" />
+                            <ContentArea onChange={contentChange} value={theContent}></ContentArea>
                         }
                     </div>
                 }
                 onConfirm={onEdit}
                 onCancel={onEditCancel}
             />
-            <StyledButton onClick={onRemove}>삭제</StyledButton>
+            <StyledButton onClick={onRemoveModal}>삭제</StyledButton>
+            <AskModal
+                visible={removeModal}
+                title=""
+                description={'일기를 정말 삭제하시겠습니까?'}
+                onConfirm={onRemove}
+                onCancel={onRemoveCancel}
+            />
             <StyledButton onClick={() => navigate('/main')}>홈</StyledButton>
         </div>
         <div className='button-container'>
@@ -512,6 +538,7 @@ const ReadDiary = () => {
                 title="감정 수정"
                 description={
                     <>
+                    <div style={{fontSize:"0.95rem", marginBottom:"0.5rem", color:"#545454"}}>{'감정 분석 결과가 마음에 안 드셨나요?'}<br />{'새로운 감정을 선택해 주세요.'}</div>
                     <SelectBox onChange={handleSelectChange}>
                         {OPTIONS.map((option) => (
 				            <option
@@ -522,9 +549,10 @@ const ReadDiary = () => {
 				            </option>
 			            ))}
                     </SelectBox>
-                    <br /><div>피드백</div>
+                    <br /><div>피드백 (선택사항)</div>
+                    <div style={{marginTop:"0.3rem", fontSize:"0.95rem", color:"#545454"}}>{'피드백을 보내주시면 추후 성능 개선에 도움이 됩니다.'}</div>
                     <TextArea onChange={feedbackChange} placeholder="피드백을 입력해 주세요" />
-                    <StyledButton style={{float:"right"}} onClick={onEmotionFeedback}>피드백 보내기</StyledButton>
+                    <StyledButton style={{float:"right", marginTop:"0.5rem"}} onClick={onEmotionFeedback}>피드백 보내기</StyledButton>
                     </>}
                 onConfirm={onEditEmotion}
                 onCancel={onEmotionCancel}
@@ -535,22 +563,18 @@ const ReadDiary = () => {
                 title="키워드 수정"
                 description={
                     <>
+                    <div style={{fontSize:"0.95rem", marginBottom:"0.5rem", color:"#545454"}}>{'키워드 결과가 마음에 안 드셨나요?'}<br />{'새로운 키워드를 입력해 주세요.'}</div>
                     <div>
                         <div>{"키워드 1"}</div>
                         <TextArea onChange={handleTag1Change} placeholder="키워드를 입력해 주세요"/>
-                    </div>
-                    <br />
-                    <div>
                         <div>{"키워드 2"}</div>
                         <TextArea onChange={handleTag2Change} placeholder="키워드를 입력해 주세요"/>
-                    </div>
-                    <br />
-                    <div>
                         <div>{"키워드 3"}</div>
                         <TextArea onChange={handleTag3Change} placeholder="키워드를 입력해 주세요"/>
                     </div>
                     <br />
-                    <div>피드백</div>
+                    <div>피드백 (선택사항)</div>
+                    <div style={{marginTop:"0.3rem", fontSize:"0.95rem", color:"#545454"}}>{'피드백을 보내주시면 추후 성능 개선에 도움이 됩니다.'}</div>
                     <TextArea onChange={feedbackChange} placeholder="피드백을 입력해 주세요" />
                     <StyledButton style={{float:"right"}} onClick={onKeywordFeedback}>피드백 보내기</StyledButton>
                     </>
