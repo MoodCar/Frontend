@@ -37,7 +37,7 @@ const LoginPage = () => {
         <div className='linear_gradient'>
         <div className='mount'>
             <div style={{marginTop:"3rem", textAlign:"center", height:"4rem"}} >
-                <img height="100%" src={logo} alt="happy" />
+                <img height="100%" src={logo} alt="logo" />
             </div>
             <div style={{float:"right", marginRight:"2rem"}}>
                 <StyledButton onClick={googleAPI.login}>로그인</StyledButton>

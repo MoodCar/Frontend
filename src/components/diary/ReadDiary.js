@@ -18,7 +18,7 @@ import fear from '../../images/fear.png';
 import disgust from '../../images/disgust.png';
 import anger from '../../images/anger.png';
 import surprise from '../../images/surprise.png';
-import loading_image from '../../images/loading.gif';
+import loading_image from '../../images/loading_emotion.gif';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
 
@@ -512,9 +512,11 @@ const ReadDiary = () => {
                     <div>
                         {loading ? 
                         <div style={{textAlign:"center"}}>
-                            <img src={loading_image} alt="loading" /> </div> :
+                            <img src={loading_image} alt="loading" />
+                            <div style={{marginTop:"1rem", fontWeight:"bold"}}>{'내용 수정 중입니다'}</div>
+                        </div> :
                             // <ContentArea onChange={contentChange} placeholder="일기 내용을 입력해 주세요" />
-                            <ContentArea onChange={contentChange} value={theContent}></ContentArea>
+                            <ContentArea onChange={contentChange} defaultValue={theDiaryContent()}></ContentArea>
                         }
                     </div>
                 }
