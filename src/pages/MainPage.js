@@ -3,8 +3,6 @@ import Header from "../components/common/Header";
 import React, { useState, useEffect } from 'react';
 import MyCalendar from '../components/common/MyCalendar';
 import Split from "react-split";
-import SidebarRight from "../components/Sidebar/SidebarRight";
-import SidebarLeft from "../components/Sidebar/SidebarLeft";
 import WritePage from "./WritePage";
 import axios from 'axios';
 

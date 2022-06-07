@@ -77,71 +77,6 @@ const StyledButton = styled(Button)`
     }
 `;
 
-const SelectDate = (props) => {
-    const [startDate, setStartDate] = useState(new Date());
-    const years = _.range(1990, getYear(new Date()) + 1, 1);
-    const months = ['1월','2월','3월','4월','5월','6월','7월','8월','9월','10월','11월','12월'];
-    return (
-        <DatePicker
-            renderCustomHeader={({
-            date,
-            changeYear,
-            changeMonth,
-            decreaseMonth,
-            increaseMonth,
-            prevMonthButtonDisabled,
-            nextMonthButtonDisabled
-        }) => (
-        <div
-            style={{
-            margin: 10,
-            display: "flex",
-            justifyContent: "center"
-          }}
-        >
-        <button onClick={decreaseMonth} disabled={prevMonthButtonDisabled}>
-            {"<"}
-        </button>
-        <select
-            value={getYear(date)}
-            onChange={({ target: { value } }) => changeYear(value)}
-        >
-        {years.map(option => (
-            <option key={option} value={option}>
-                {option}
-            </option>
-        ))}
-        </select>
-
-        <select
-            value={months[getMonth(date)]}
-            onChange={({ target: { value } }) =>
-            changeMonth(months.indexOf(value))
-        }
-        >
-        {months.map(option => (
-            <option key={option} value={option}>
-                {option}
-            </option>
-        ))}
-        </select>
-
-        <button onClick={increaseMonth} disabled={nextMonthButtonDisabled}>
-            {">"}
-        </button>
-        </div>
-        )}
-        selected={startDate}
-        dateFormat={"yyyy/MM/dd"}
-        locale={ko}
-        onChange={date => setStartDate(date)}
-        todayButton="today"
-        />
-    );
-};
-
-
-
 const Header = () => {
     const [modal, setModal] = useState(false);
     const onCancel = () => {
@@ -198,7 +133,6 @@ const Header = () => {
         } else {
             emotion = 0;
         }
-        // return [today, emotion];
         return [today, emotion];
         } catch (err) {
         console.log(err);
@@ -237,7 +171,6 @@ const Header = () => {
     function statsButtonClick() {
         window.location.href = 'http://localhost:3000/statistics';
     }
-    const state = 200;
     return (
         <>
             <HeaderBlock>
@@ -245,51 +178,41 @@ const Header = () => {
                     <Link to="/main" className="logo">
                         <img src={logo} alt="logo" />
                     </Link>
-                    {!state ? (
-                        <div className='right'>
-                            <StyledButton onClick={googleAPI.login}>로그인</StyledButton>
-                        </div> ) : 
-                    (
-                        <div className="right">
-                            <StyledButton onClick={statsButtonClick}>통계 보기</StyledButton>
-                            <StyledButton onClick={contentsButtonClick}>contents</StyledButton>
-                            <AskModal
-                                visible={modal}
-                                title="콘텐츠 추천"
-                                description={
-                                    <>
-                                    <div style={{ float: "left"}}> {'오늘 일기의 감정은'}&nbsp; </div> <div style={{ float: "left", backgroundColor: color, fontWeight: "bold"}}>&nbsp;{em}&nbsp;</div> <div style={{ float: "left"}}>{'입니다'}</div>
-                                    <br />
-                                    <div> {publisher + ' - ' + contentName} </div>
-                                    <br />
-                                    <ReactPlayer 
-                                    className="react-player" 
-                                    url={url}
-                                    width="100%" 
-                                    height="230px" 
-                                    muted={true}
-                                    playing={true} 
-                                    loop={true}
-                                    controls={true} />
-                                </>}
-                                onCancel={onCancel}
-                            />
-                            {/* <StyledButton to="/search"> */}
-                            <StyledButton onClick={searchButtonClick}>
-                                일기 검색
-                            </StyledButton>
-                            <StyledButton onClick ={writeButtonClick}>
-                                일기 작성
-                            </StyledButton>
-                            <UserInfo>
-                                <googleAPI.Users />
-                            </UserInfo>
-                            <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
-                        </div>
-                    )}
-
-                    
-
+                    <div className="right">
+                        <StyledButton onClick={statsButtonClick}>통계 보기</StyledButton>
+                        <StyledButton onClick={contentsButtonClick}>contents</StyledButton>
+                        <AskModal
+                            visible={modal}
+                            title="콘텐츠 추천"
+                            description={
+                                <>
+                                <div style={{ float: "left"}}> {'오늘 일기의 감정은'}&nbsp; </div> <div style={{ float: "left", backgroundColor: color, fontWeight: "bold"}}>&nbsp;{em}&nbsp;</div> <div style={{ float: "left"}}>{'입니다'}</div>
+                                <br />
+                                <div> {publisher + ' - ' + contentName} </div>
+                                <br />
+                                <ReactPlayer 
+                                className="react-player" 
+                                url={url}
+                                width="100%" 
+                                height="230px" 
+                                muted={true}
+                                playing={true} 
+                                loop={true}
+                                controls={true} />
+                            </>}
+                            onCancel={onCancel}
+                        />
+                        <StyledButton onClick={searchButtonClick}>
+                            일기 검색
+                        </StyledButton>
+                        <StyledButton onClick ={writeButtonClick}>
+                            일기 작성
+                        </StyledButton>
+                        <UserInfo>
+                            <googleAPI.Users />
+                        </UserInfo>
+                        <StyledButton onClick={googleAPI.logout}>로그아웃</StyledButton>    
+                    </div>
                 </Wrapper>
             </HeaderBlock>
             <Spacer />

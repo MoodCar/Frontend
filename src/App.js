@@ -7,9 +7,14 @@ import DiaryPage from './pages/DiaryPage';
 import SearchPage from './pages/SearchPage';
 import LoginPage from './pages/LoginPage';
 import StatisticsPage from './pages/StatisticsPage';
+import { Helmet } from 'react-helmet-async';
 
 function App() {
   return (
+    <>
+    <Helmet>
+      <title>MOODCAR</title>
+    </Helmet>
     <Routes>
       <Route path="/" element={<LoginPage />} />
       <Route path="/main" element={<MainPage />} />
@@ -26,6 +31,7 @@ function App() {
       </Route>
       <Route path="/statistics" element={<StatisticsPage />} />
     </Routes>
+    </>
   );
 }
 

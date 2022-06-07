@@ -3,7 +3,6 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-
 import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -11,6 +10,7 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import createSagaMiddleware from 'redux-saga';
 import rootReducer, { rootSaga } from './modules';
 import { tempSetUse, checklogin, tempSetUser } from './modules/user';
+import { HelmetProvider } from 'react-helmet-async';
 
 const sagaMiddleware = createSagaMiddleware();
 const store = createStore(
@@ -37,7 +37,9 @@ ReactDOM.render(
   <Provider store={store}>
     <BrowserRouter>
      <React.StrictMode>
-        <App />
+        <HelmetProvider>
+          <App />
+        </HelmetProvider>
       </React.StrictMode>
     </BrowserRouter>
   </Provider>,

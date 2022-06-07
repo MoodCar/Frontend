@@ -21,6 +21,7 @@ import surprise from '../../images/surprise.png';
 import loading_image from '../../images/loading_emotion.gif';
 
 ChartJS.register(ArcElement, Tooltip, Legend);
+<script src="/com/js/Chart.PieceLabel.js"></script>
 
 const StyledButton = styled.button`
     padding: 0.4rem 0.8rem;
@@ -112,7 +113,7 @@ const ReadDiary = () => {
     const onEmotionModalButtonClick = () => {
         setEmotionModal(true);
         document.body.style.cssText = `
-        position: fixed; 
+        position: fixed;
         top: -${window.scrollY}px;
         overflow-y: scroll;
         width: 100%;`;
@@ -127,7 +128,7 @@ const ReadDiary = () => {
     const onKeywordModalButtonClick = () => {
         setKeywordModal(true);
         document.body.style.cssText = `
-        position: fixed; 
+        position: fixed;
         top: -${window.scrollY}px;
         overflow-y: scroll;
         width: 100%;`;
@@ -142,7 +143,7 @@ const ReadDiary = () => {
     const onRemoveModal = () => {
         setRemoveModal(true);
         document.body.style.cssText = `
-        position: fixed; 
+        position: fixed;
         top: -${window.scrollY}px;
         overflow-y: scroll;
         width: 100%;`;
@@ -173,7 +174,7 @@ const ReadDiary = () => {
         setEditModal(true);
         console.log(theContent);
         document.body.style.cssText = `
-        position: fixed; 
+        position: fixed;
         top: -${window.scrollY}px;
         overflow-y: scroll;
         width: 100%;`;
@@ -372,6 +373,39 @@ const ReadDiary = () => {
         { value: "혐오", name: "혐오" },
     ];
 
+    const chartoptions = {
+        responsive: true,
+        plugins: {
+          legend: {
+            display: true,
+            labels: {
+                font: {
+                    family: "S-CoreDream-3Light",
+                    size: 17
+                }
+            }
+          },
+          datalabels: {
+            color: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff'],
+            borderWidth: 2,
+            borderColor: ['#fff','#fff','#fff','#fff','#fff','#fff','#fff'],
+            bordeRadius: 25,
+            anchor: 'center',
+            formatter: function(value, context) {
+                return value
+                }
+            },
+            title: {
+                display: true,
+                text: '감정 분석 결과',
+                font: {
+                    family: "S-CoreDream-3Light",
+                    size: 17
+                },
+            },
+        },
+    };
+
     const onRemove = async() => {
         await axios
         .delete(`http://3.39.17.18/diaries/details/${diaryid}`, { withCredentials: true })
@@ -510,7 +544,7 @@ const ReadDiary = () => {
                 description={
                     // <TextArea onChange={contentChange} placeholder="수정할 일기 내용" />
                     <div>
-                        {loading ? 
+                        {loading ?
                         <div style={{textAlign:"center"}}>
                             <img src={loading_image} alt="loading" />
                             <div style={{marginTop:"1rem", fontWeight:"bold"}}>{'내용 수정 중입니다'}</div>
@@ -593,7 +627,7 @@ const ReadDiary = () => {
                     <br />
                     <div className='content'>
                         {theDiaryContent()}
-                    
+
                     <br />
                     <h4 align='right'>
                         {theDiaryEmotion()}
@@ -607,20 +641,24 @@ const ReadDiary = () => {
                     </div>
                     </div>
                     <br />
-                    <div className='chart-container'>
-                        <Pie data={data} />
-                    </div>
-                    {/* <div className='feedback-buttons'>
-                        <StyledButton onClick={onEmotionFeedbackModalClick}>감정 피드백 보내기</StyledButton>
-                        <AskModal
-                            visible={emotionFeedbackModal}
-                            title="감정 feedback"
-                            description="feedback"
-                            onConfirm={onEditEmotion}
-                            onCancel={onEmotionFeedbackCancel}
-                        />
-                        <StyledButton onClick={onKeywordFeedbackModalClick}>키워드 피드백 보내기</StyledButton>
-                    </div> */}
+                    {/* <div className='chart-container'> */}
+                        <div className='chart'>
+                            <Pie options={chartoptions} data={data} />
+                        </div>
+                        <div className='value-container'>
+                            <div style={{ float:"left", backgroundColor: '#b3b1b1', fontWeight: "bold"}}>{'중립'}</div> <div>&nbsp;{'- ' + score[0]}</div><br />
+                            <div style={{ marginTop:"-1rem", float:"left", backgroundColor: '#f8fab4', fontWeight: "bold"}}>{'행복'}</div> <div style={{marginTop:"-1rem"}}>&nbsp;{'- ' + score[1]}</div><br />
+                            <div style={{ marginTop:"-1rem", float:"left", backgroundColor: '#b5c5f5', fontWeight: "bold"}}>{'슬픔'}</div> <div style={{marginTop:"-1rem"}}>&nbsp;{'- ' + score[2]}</div><br />
+                            <div style={{ marginTop:"-1rem", float:"left", backgroundColor: '#b6e3bf', fontWeight: "bold"}}>{'공포'}</div> <div style={{marginTop:"-1rem"}}>&nbsp;{'- ' + score[3]}</div><br />
+                            <div style={{ marginTop:"-1rem", float:"left", backgroundColor: '#fac7a5', fontWeight: "bold"}}>{'혐오'}</div> <div style={{marginTop:"-1rem"}}>&nbsp;{'- ' + score[4]}</div><br />
+                            <div style={{ marginTop:"-1rem", float:"left", backgroundColor: '#f09c9c', fontWeight: "bold"}}>{'분노'}</div> <div style={{marginTop:"-1rem"}}>&nbsp;{'- ' + score[5]}</div><br />
+                            <div style={{ marginTop:"-1rem", float:"left", backgroundColor: '#d0beed', fontWeight: "bold"}}>{'놀람'}</div> <div style={{marginTop:"-1rem"}}>&nbsp;{'- ' + score[6]}</div><br />
+                        </div>
+                        {/* <div className='value-container'>
+                            <div>{'중립'}</div>
+                            <div>{'행복 - ' + score[1]}</div>
+                        </div> */}
+                    {/* </div> */}
                 </>
             </div>
         </>

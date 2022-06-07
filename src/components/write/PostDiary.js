@@ -8,7 +8,6 @@ import * as diaryAPI from '../../lib/api/diary';
 import { useNavigate } from 'react-router';
 import { useLocation } from 'react-router-dom';
 import Button from '../common/Button';
-import Spinner from '../common/Spinner';
 import loading_image from '../../images/loading_emotion.gif';
 
 const PostDiary = () => {

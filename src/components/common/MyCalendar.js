@@ -37,7 +37,6 @@ const CalendarBlock = styled.div`
 const MyCalendar = (props) => {
 
     const [diarylist, setDiarylist] = useState([]);
-    const [pid, setPid] = useState('');
     const [state, setState] = useState('');
     const provider_Id = useRef(null);
 
@@ -46,17 +45,12 @@ const MyCalendar = (props) => {
         .get('/checklogin', { withCredentials: true })
         .then(response => {
             setState(response.status);
-            setPid(response.data[0].providerId);
             provider_Id.current = response.data[0].providerId;
-
             axios
             .get(`http://3.39.17.18/diaries/${provider_Id.current}`, { withCredentials: true })
             .then((response) => {
                 console.log(response.data.fetchResult);
                 setDiarylist(response.data.fetchResult);
-                // console.log(diarylist.map(diary => (diary.emotion)));
-                // console.log(diarylist.map(diary => (diary.written_date.substr(0, 10))));
-                // console.log(diarylist.map(diary => (diary.hashtag_1)));
             })
             .catch((error) => {
                 console.log(error.response);
@@ -78,7 +72,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="0 auto" src={neutral} />
+                        <img display="block" margin="0 auto" src={neutral} alt="neutral"/>
                     </div>
                     <div className='event'>
                         중립
@@ -93,7 +87,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="a auto" src={happy} />
+                        <img display="block" margin="a auto" src={happy} alt="happy"/>
                     </div>
                     <div className='event'>
                         행복
@@ -108,7 +102,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="a auto" src={sad} />
+                        <img display="block" margin="a auto" src={sad} alt="sad"/>
                     </div>
                     <div className='event'>
                         슬픔
@@ -123,7 +117,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="a auto" src={fear} />
+                        <img display="block" margin="a auto" src={fear} alt="fear"/>
                     </div>
                     <div className='event'>
                         공포
@@ -138,7 +132,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="a auto" src={disgust} />
+                        <img display="block" margin="a auto" src={disgust} alt="happy"/>
                     </div>
                     <div className='event'>
                         혐오
@@ -153,7 +147,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="a auto" src={anger} />
+                        <img display="block" margin="a auto" src={anger} alt="anger"/>
                     </div>
                     <div className='event'>
                         분노
@@ -168,7 +162,7 @@ const MyCalendar = (props) => {
             return (
                 <>
                     <div className='event'>
-                        <img display="block" margin="a auto" src={surprise} />
+                        <img display="block" margin="a auto" src={surprise} alt="surprise"/>
                     </div>
                     <div className='event'>
                         놀람

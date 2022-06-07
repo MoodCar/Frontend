@@ -2,7 +2,6 @@ import { createAction, handleActions } from 'redux-actions';
 import createRequestSaga, { createRequestActionTypes, } from '../lib/createRequestSaga';
 import * as diaryAPI from '../lib/api/diary';
 import { takeLatest } from 'redux-saga/effects';
-import SelectDate from '../components/common/SelectDate';
 
 const INITIALIZE = 'write/INITIALIZE'; // 모든 내용 초기화
 const CHANGE_FIELD = 'write/CHANGE_FIELD'; // 특정 key 값 바꾸기
@@ -38,7 +37,7 @@ const initialState = {
 };
 
 const dateState = {
-    date: SelectDate.dateString,
+    date: '',
 };
 
 const write = handleActions(
@@ -46,7 +45,7 @@ const write = handleActions(
         [INITIALIZE]: state => initialState, // initialSate를 넣으면 초기 상태로 바뀜
         [CHANGE_DATE]: (state, { payload: { key } }) => ({
             ...state,
-            date : SelectDate.dateString,
+            date : '',
         }),
         [CHANGE_FIELD]: (state, { payload: { key, value } }) => ({
             ...state,

@@ -131,7 +131,7 @@ const SearchDiary = () => {
             {/* <div className='diary-card' key={element.id} onClick={()=>goDiary(element.id)}>{element.written_date}</div> */}
             <div className='diary-card' onClick={()=>goDiary(element.id)}>
                 <div className='date-wrapper' key={element.written_date}>{element.written_date}</div> <br />
-                <div className='content-wrapper' key={element.content}>{element.content}</div> <br />
+                <div style={{width:"92%"}} className='content-wrapper' key={element.content}>{element.content}</div> <br />
                 <div className='emotion-wrapper' key={element.emotion}>{emotionRender(element.emotion)}</div>
             </div>
             </>
