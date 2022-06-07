@@ -1,7 +1,17 @@
 # MoodCar - Frontend
-<center><img src="src/images/logo.png"></center>
+
 <br />
-<center><div>감정일기 서비스 MoodCar</div></center>
+<div align="center">
+<img src="src/images/logo.png"><br/>
+
+<br/>
+
+### 2022-1 SW캡스톤디자인 Team Project
+### 감정 일기 서비스 Moodcar   
+[Moodcar Github](https://github.com/MoodCar)
+<br/>
+</div>
+
 <br/>
 <br />
 
